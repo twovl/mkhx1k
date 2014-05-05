@@ -8,4 +8,11 @@
  );
  */
 var server = require('./server.js');
-server.login('twovl','22706891',function(err,userInfo){});
+server.login('twovl','22706891',function(err,userInfo){
+	if(err){
+		console.log(err);
+	}
+	else{
+		console.log(userInfo);
+	}
+});
