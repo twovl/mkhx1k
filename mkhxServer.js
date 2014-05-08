@@ -93,9 +93,9 @@ exports.login = function(username,password,callback){
 					var req = http.request(gameServer,function(res){
 						res.setEncoding('utf8');
 						res.on('data',function(data){
-							
+                            //登录成功
+							//TODO
 							callback(null,userInfo);
-							console.log(data);
 						});
 					});
 					req.write(gameServerLoginReqContent);
