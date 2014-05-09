@@ -68,7 +68,7 @@ exports.login = function(username,password,callback){
 				if(data.returnCode=='0'){
 				//登录成功
 					var userInfo = data.returnObjs;
-					userInfo.sid = res.headers['set-cookie'][0].split(/\W+/)[1];//获取cookie中的sid
+					
 					userInfo.mainServer = mainServer;
 					
 	//3、登录用户所在的游戏服务器
@@ -94,6 +94,7 @@ exports.login = function(username,password,callback){
 						res.setEncoding('utf8');
 						res.on('data',function(data){
                             //登录成功
+                            userInfo.sid = res.headers['set-cookie'][0].split(/\W+/)[1];//获取cookie中的sid
 							//TODO
 							callback(null,userInfo);
 						});
