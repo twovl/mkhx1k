@@ -94,6 +94,7 @@ exports.login = function(username,password,callback){
 						res.setEncoding('utf8');
 						res.on('data',function(data){
                             //登录成功
+                            userInfo.gameServer = gameServer;
                             userInfo.sid = res.headers['set-cookie'][0].split(/\W+/)[1];//获取cookie中的sid
 							//TODO
 							callback(null,userInfo);
