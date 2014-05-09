@@ -1,13 +1,30 @@
 {
   "name": "mkhx1k",
   "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node app.js"
-  },
+  "description": "mkh1k",
   "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "express": "3.5.1",
     "jade": "*"
-  }
+  },
+  "engines": {
+    "node": "0.10.13",
+    "npm": "1.3.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:twovl/mkhx1k.git"
+  },
+  "keywords": [
+    "node",
+    "jae"
+  ],
+  "author": "twovl",
+  "license": "BSD",
+  "gitHead": "a4c182a5121aa047e62f13be1135e6fb309dae4f",
+  "devDependencies": {},
+  "optionalDependencies": {}
 }
