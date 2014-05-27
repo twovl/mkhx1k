@@ -8,7 +8,7 @@ var commons = require('./commons.js');
 var gameServerServices = require('./gameServerServices.js');
 
 /**
- *
+ * 登录
  * @param username
  * @param password
  * @param callback function(err,userInfo),userInfo为用户访问服务器的接口
@@ -39,7 +39,7 @@ exports.login = function(username,password,callback){
         res.on('data',function(data) {
             if(data){
 			//有登录返回数据
-			/*
+			/**
 			data结构
 			{ 	returnCode: '0',
 				returnMsg: 'No error.',
@@ -80,24 +80,46 @@ exports.login = function(username,password,callback){
 						headers:commons.commonHeaders()
 					};
 					//游戏服务器请求内容
-					var gameServerLoginReqContent = querystring.stringify({
-						Udid: commons.commonDeviceInfo.udid,
-						time: userInfo.timestamp,
-						UserName:userInfo.userName,
-						Origin: 'WP8',
-						key: userInfo.key,
-						Password: userInfo.U_ID,
-						Devicetoken: ''
-					});
+					var gameServerLoginReqContent = gameServerServices.passportLogin.params;
+                    gameServerLoginReqContent.Udid=commons.commonDeviceInfo.udid;
+                    gameServerLoginReqContent.time = userInfo.timestamp;
+                    gameServerLoginReqContent.UserName = userInfo.userName;
+                    gameServerLoginReqContent.key = userInfo.key;
+                    gameServerLoginReqContent.Password = userInfo.U_ID;
+                    gameServerLoginReqContent  = querystring.stringify(gameServerLoginReqContent);
 					gameServer.headers['Content-Length'] = gameServerLoginReqContent.length;
 					var req = http.request(gameServer,function(res){
 						res.setEncoding('utf8');
 						res.on('data',function(data){
-                            //登录成功
-                            userInfo.gameServer = gameServer;
-                            userInfo.sid = res.headers['set-cookie'][0].split(/\W+/)[1];//获取cookie中的sid
-							//TODO
-							callback(null,userInfo);
+                            /*
+                            data结构
+                             {
+                             "status": 1,
+                                 "data": {
+                                     "isSetNick": "0",
+                                     "invite": true,
+                                     "gscode": false,
+                                     "minor": false,
+                                     "PlayingTipsUrl": "",
+                                     "cdnurl": "http://d.muhecdn.com/mkhx/",
+                                     "encrypt": 0,
+                                     "ip": "s1.wp.mysticalcard.com",
+                                     "ipport": 8000
+                                 }
+                             }
+                             */
+                            data = JSON.parse(data);
+                            if(data.status=='1'){
+                                //登录成功
+                                userInfo.gameServer = gameServer;
+                                userInfo.sid = res.headers['set-cookie'][0].split(/\W+/)[1];//获取cookie中的sid
+                                //TODO
+                                callback(null,userInfo);
+                            }
+                            else {
+                                //登录失败
+                                callback(data,null);
+                            }
 						});
 					});
 					req.write(gameServerLoginReqContent);
@@ -115,5 +137,59 @@ exports.login = function(username,password,callback){
         });
     });
     req.write(mainServerReqContent);
+    req.end();
+};
+
+/**
+ * 获取迷宫状态
+ * @param userInfo 当前登录用户的信息，主要使用其中保存的gameServer和sid，通过login方法取得
+ * @param mapStageId 地图号
+ * @param callback function(err,mazeInfo),mazeInfo为用户访问服务器的接口
+ */
+exports.getMazeInfo = function(userInfo,mapStageId,callback){
+    var gameServer = userInfo.gameServer;
+    gameServer.path = gameServerServices.getMazeInfo.path;
+    gameServer.method = gameServerServices.getMazeInfo.method;
+    var reqContent = gameServerServices.getMazeInfo.params;
+    reqContent.MapStageId = mapStageId;
+    reqContent = querystring.stringify(uestContent);
+    gameServer.headers['Cookie']='_sid='+userInfo.sid;
+    gameServer.headers['Content-Length'] = reqContent.length;
+
+    var req = http.request(gameServer,function(res){
+        res.setEncoding('utf8');
+        res.on('data',function(data){
+            /**
+             data结构
+             {
+                 "status": 1,
+                 "data": {
+                     "Name": "\u672b\u65e5\u4e4b\u5854",
+                     "Layer": 1,
+                     "Clear": 0,
+                     "FreeReset": 1,
+                     "ResetCash": 100
+                 },
+                 "version": {
+                     "http": "201302418",
+                     "stop": "",
+                     "appversion": "version_1",
+                     "appurl": "ios://xxx",
+                     "encrypt": 0
+                 }
+             }
+             */
+            data = JSON.parse(data);
+            if(data.status=='1'){
+                //获取成功
+                callback(null,data.data);
+            }
+            else {
+                //获取失败
+                callback(data,null);
+            }
+        });
+    });
+    req.write(reqContent);
     req.end();
 };

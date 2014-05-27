@@ -26,3 +26,4 @@ node_modules
 
 # WebStorm
 .idea
+views/*.html

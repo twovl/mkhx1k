@@ -16,7 +16,9 @@ exports.login = function(req,res){
             res.render('main',{info:err});
         }
         else{
-            res.render('main',{info:JSON.stringify(userInfo)});
+            req.session.userInfo = userInfo;
+            var renderContent = {info:JSON.stringify(userInfo)};
+            res.render('main',renderContent);
         }
     });
 };
