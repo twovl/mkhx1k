@@ -21,7 +21,7 @@ module.exports={
         method:'GET'
     },
     getMazeInfo:{
-        path:'/maze.php?do=Show&v=5693&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
+        path:'/maze.php?do=Show&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
         method:'POST',
         params:{
             MapStageId:'7'//迷宫号，2-8塔

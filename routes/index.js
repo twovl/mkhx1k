@@ -22,3 +22,14 @@ exports.login = function(req,res){
         }
     });
 };
+exports.mazeInfo = function(req,res){
+    var mapStageId = req.params.mapStageId;
+    mkhxServer.getMazeInfo(req.session.userInfo,mapStageId,function(err,mazeInfo){
+        if(err){
+            res.send(JSON.stringify(err));
+        }
+        else{
+            res.send(JSON.stringify(mazeInfo));
+        }
+    });
+};

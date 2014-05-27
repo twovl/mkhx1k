@@ -9,43 +9,57 @@ block content
                 td 操作
             tr
                 td 2塔
-                td 无
+                td#td2
+                    script
+                        $.get("/mazeInfo/2",function(data,status){$('#td2').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
                 td 3塔
-                td 无
+                td#td3
+                    script
+                        $.get("/mazeInfo/3",function(data,status){$('#td3').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
                 td 4塔
-                td 无
+                td#td4
+                    script
+                        $.get("/mazeInfo/4",function(data,status){$('#td4').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
                 td 5塔
-                td 无
+                td#td5
+                    script
+                        $.get("/mazeInfo/5",function(data,status){$('#td5').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
-                td 3塔
-                td 无
+                td 6塔
+                td#td6
+                    script
+                        $.get("/mazeInfo/6",function(data,status){$('#td6').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
                 td 7塔
-                td 无
+                td#td7
+                    script
+                        $.get("/mazeInfo/7",function(data,status){$('#td7').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')
             tr
                 td 8塔
-                td 无
+                td#td8
+                    script
+                        $.get("/mazeInfo/8",function(data,status){$('#td8').text(data);});
                 td
                     input(type='button',value='一键')
                     input(type='button',value='重置')

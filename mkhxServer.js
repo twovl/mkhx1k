@@ -152,7 +152,7 @@ exports.getMazeInfo = function(userInfo,mapStageId,callback){
     gameServer.method = gameServerServices.getMazeInfo.method;
     var reqContent = gameServerServices.getMazeInfo.params;
     reqContent.MapStageId = mapStageId;
-    reqContent = querystring.stringify(uestContent);
+    reqContent = querystring.stringify(reqContent);
     gameServer.headers['Cookie']='_sid='+userInfo.sid;
     gameServer.headers['Content-Length'] = reqContent.length;
 
