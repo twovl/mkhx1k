@@ -31,6 +31,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/login',routes.index);
 app.post('/login', routes.login);
 app.get('/mazeInfo/:mapStageId',routes.mazeInfo);
 
