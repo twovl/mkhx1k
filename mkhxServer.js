@@ -91,23 +91,6 @@ exports.login = function(username,password,callback){
 					var req = http.request(gameServer,function(res){
 						res.setEncoding('utf8');
 						res.on('data',function(data){
-                            /*
-                            data结构
-                             {
-                             "status": 1,
-                                 "data": {
-                                     "isSetNick": "0",
-                                     "invite": true,
-                                     "gscode": false,
-                                     "minor": false,
-                                     "PlayingTipsUrl": "",
-                                     "cdnurl": "http://d.muhecdn.com/mkhx/",
-                                     "encrypt": 0,
-                                     "ip": "s1.wp.mysticalcard.com",
-                                     "ipport": 8000
-                                 }
-                             }
-                             */
                             data = JSON.parse(data);
                             if(data.status=='1'){
                                 //登录成功
@@ -159,26 +142,6 @@ exports.getMazeInfo = function(userInfo,mapStageId,callback){
     var req = http.request(gameServer,function(res){
         res.setEncoding('utf8');
         res.on('data',function(data){
-            /**
-             data结构
-             {
-                 "status": 1,
-                 "data": {
-                     "Name": "\u672b\u65e5\u4e4b\u5854",
-                     "Layer": 1,
-                     "Clear": 0,
-                     "FreeReset": 1,
-                     "ResetCash": 100
-                 },
-                 "version": {
-                     "http": "201302418",
-                     "stop": "",
-                     "appversion": "version_1",
-                     "appurl": "ios://xxx",
-                     "encrypt": 0
-                 }
-             }
-             */
             data = JSON.parse(data);
             if(data.status=='1'){
                 //获取成功

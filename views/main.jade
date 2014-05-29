@@ -12,9 +12,9 @@ block append scripts
     script.
         $(document).ready(function(){
             for(var i=2;i<9;i++){
-               (function(mazeStageId){
-                   $.get("/mazeInfo/"+ mazeStageId,function(data,status){
-                    $('#lblMazeInfo'+ mazeStageId).text(data);
+               (function(mapStageId){
+                   $.get("/mazeInfo/"+ mapStageId,function(data,status){
+                    $('#lblMazeInfo'+ mapStageId).text(data);
                 });
                })(i);
             }
