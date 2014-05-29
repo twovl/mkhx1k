@@ -1,35 +1,13 @@
+var login = require('./login');
+var maze = require('./maze');
 
-/*
- * GET home page.
- */
-
-var mkhxServer = require('../mkhxServer.js');
-
-exports.index = function(req, res){
-  res.render('index');
-};
-exports.login = function(req,res){
-    var username = req.body['username'];
-    var password = req.body['password'];
-    mkhxServer.login(username,password,function(err,userInfo){
-        if(err){
-            res.render('main',{info:err});
-        }
-        else{
-            req.session.userInfo = userInfo;
-            var renderContent = {info:JSON.stringify(userInfo)};
-            res.render('main',renderContent);
-        }
+module.exports = function(app){
+    app.get('/', function(req, res){
+        res.render('index');
     });
-};
-exports.mazeInfo = function(req,res){
-    var mapStageId = req.params.mapStageId;
-    mkhxServer.getMazeInfo(req.session.userInfo,mapStageId,function(err,mazeInfo){
-        if(err){
-            res.send(JSON.stringify(err));
-        }
-        else{
-            res.send(JSON.stringify(mazeInfo));
-        }
+    app.get('/login',function(req, res){
+        res.render('index');
     });
+    app.post('/login', login);
+    app.get('/mazeInfo/:mapStageId',maze.info);
 };
