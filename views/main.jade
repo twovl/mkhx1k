@@ -14,7 +14,11 @@ block append scripts
             for(var i=2;i<9;i++){
                (function(mapStageId){
                    $.get("/mazeInfo/"+ mapStageId,function(data,status){
-                    $('#lblMazeInfo'+ mapStageId).text(data);
+                   data = JSON.parse(data);
+                   $('#lblMazeName'+ mapStageId).text(data.Name);
+                   $('#lblMazeIsCleared'+ mapStageId).text(data.Clear);
+                   $('#lblMazeFreeReset'+ mapStageId).text(data.FreeReset);
+                   $('#lblMazeResetCash'+ mapStageId).text(data.ResetCash);
                 });
                })(i);
             }
@@ -26,13 +30,22 @@ block content
             table
                 tr
                     th 迷宫
-                    th 状态
+                    th 名称
+                    th 是否通关
+                    th 免费重置
+                    th 重置花费
                     th 操作
                 - for(var i=2;i<9;i++)
                     tr
                         td #{i}塔
                         td
-                            label( id = "lblMazeInfo#{ i }")
+                            label(id = "lblMazeName#{ i }") 名称
+                        td
+                            label(id = "lblMazeIsCleared#{ i }") 否
+                        td
+                            label(id = "lblMazeFreeReset#{ i }") 0
+                        td
+                            label(id = "lblMazeResetCash#{ i }") 0
                         td
                             button 一键
                             button 重置
