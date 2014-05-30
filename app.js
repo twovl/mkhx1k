@@ -1,11 +1,19 @@
 /**
  * Module dependencies.
  */
-
 var express = require('express');
-var routes = require('./routes');
+var favicon = require('serve-favicon');
+var morgan  = require('morgan');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var errorhandler = require('errorhandler');
+
 var http = require('http');
 var path = require('path');
+
+var routes = require('./routes');
 
 var app = express();
 
@@ -13,26 +21,20 @@ var app = express();
 app.set('port', process.env.PORT || 1337);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(express.cookieParser('keyboard cat'));
-app.use(express.session());
-app.use(app.router);
+app.use(favicon(__dirname + '/public/favicon.png'));
+app.use(morgan());
+app.use(bodyParser());
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(methodOverride());
+app.use(cookieParser('mkhx1k 185'));
+app.use(session({secret: 'mkhx1k 185'}));
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  app.use(errorhandler());
 }
-
 routes(app);
-
-
 http.createServer(app).listen(app.get('port'),  function(){
     console.log('Express server listening on port ' + app.get('port'));
 });

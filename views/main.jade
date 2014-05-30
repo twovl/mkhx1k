@@ -21,59 +21,21 @@ block append scripts
         });
 block content
     h1= "魔卡幻想一键"
-    p
-        table(border=1)
-            tr
-                td 迷宫
-                td 状态
-                td 操作
-            tr
-                td 2塔
-                td
-                    label#lblMazeInfo2
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 3塔
-                td
-                    label#lblMazeInfo3
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 4塔
-                td
-                    label#lblMazeInfo4
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 5塔
-                td
-                    label#lblMazeInfo5
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 6塔
-                td
-                    label#lblMazeInfo6
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 7塔
-                td
-                    label#lblMazeInfo7
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-            tr
-                td 8塔
-                td
-                    label#lblMazeInfo8
-                td
-                    input(type='button',value='一键')
-                    input(type='button',value='重置')
-    p #{info}
+    div
+        p
+            table
+                tr
+                    th 迷宫
+                    th 状态
+                    th 操作
+                - for(var i=2;i<9;i++)
+                    tr
+                        td #{i}塔
+                        td
+                            label( id = "lblMazeInfo#{ i }")
+                        td
+                            button 一键
+                            button 重置
+
+    div
+        p #{info}

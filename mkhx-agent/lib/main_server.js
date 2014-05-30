@@ -3,9 +3,9 @@ var commons = require('./commons');
 
 /**
  * 登录主服务器，获取通行证等信息
- * @param {用户名} username
- * @param {密码} password
- * @param {function(err,passport) passport为主服务器返回的用于登录game_server的信息} callback
+ * @param {String} username 用户名
+ * @param {String} password 密码
+ * @param {Function} callback function(err,passport) passport为主服务器返回的用于登录game_server的信息
  */
 exports.login = function (username, password, callback){
     //1、初始化主服务器信息

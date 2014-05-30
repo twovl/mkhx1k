@@ -1,8 +1,27 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    color: #4f6b72;
+    background: #E6EAE9;
 }
 
-a {
-  color: #00B7FF;
+table {
+    padding: 0;
+    margin: 0;
+    border: 2px solid dodgerblue;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+th {
+    letter-spacing: 3px;
+    padding: 6px;
+    background: #CAE8EA;
+    border: 1px solid cornflowerblue;
+}
+
+td {
+    background: #fff;
+    font-size:12px;
+    padding: 6px;
+    border: 1px solid cornflowerblue;
 }

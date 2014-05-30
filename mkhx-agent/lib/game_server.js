@@ -6,8 +6,8 @@ var services = require('./game_server_services');
 
 /**
  * 登录游戏服务器
- * @param {passport} username
- * @param {function(err,userData),userData包含passport、pptRtnData、host、sid} callback
+ * @param {JSON} passport
+ * @param {function} callback function(err,userData),userData包含passport、pptRtnData、host、sid
  */
 exports.passportLogin = function (passport,callback){
     var server={
@@ -60,10 +60,10 @@ exports.passportLogin = function (passport,callback){
 exports.maze = {
     /**
      * 获取迷宫状态信息
-     * @param {游戏服务器地址} host
-     * @param {游戏服务器用户_sid} sid
-     * @param {迷宫所在的地图号} mapStageId
-     * @param {function(err,mazeInfo)} callback
+     * @param {String} host 游戏服务器地址
+     * @param {String} sid 游戏服务器用户_sid
+     * @param {String|Number} mapStageId 迷宫所在的地图号
+     * @param {Function} callback Function(err,mazeInfo)
      */
     show: function (host, sid, mapStageId, callback){
         var server={
