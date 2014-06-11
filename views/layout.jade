@@ -6,4 +6,9 @@ html
     block scripts
         script(src='/jquery-1.11.1.js')
   body
-    block content
+    div#wrapper
+        div#header
+            h1= "魔卡幻想一键"
+        block content
+        div#footer
+            p 本工具只做内部交流使用，因此而带来的问题自行负责。

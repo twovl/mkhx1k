@@ -1,3 +1,8 @@
+h1 {
+    font-family: "Microsoft YaHei";
+    letter-spacing: 3px;
+    font-weight: normal;
+}
 body {
     padding: 50px;
     color: #4f6b72;
