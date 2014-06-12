@@ -13,8 +13,8 @@ module.exports = function (req,res){
                     res.render('index',{info: JSON.stringify(err)});
                 }
                 else {
-                    req.session.userData = userData;
-                    res.render('main', {info: JSON.stringify(userData)});
+                    res.cookie('remoteInfo',{'sid':userData.sid, 'host':userData.host},{maxAge: 3600, httpOnly: true});
+                    res.redirect('main');
                 };
             });
         }

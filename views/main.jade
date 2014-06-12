@@ -1,38 +1,26 @@
 extends layout
 block append scripts
-    //script.
-        $(document).ready(function(){
-            for(var i=2;i<9;i++){
-                $.get("/mazeInfo/"+i,function(data,status){
-                    alert(i);
-                    $('#tdStatus'+ i).text(data);
-                });
-            }
-        });
     script.
-        $(document).ready(function(){
-            for(var i=2;i<9;i++){
-               (function(mapStageId){
-                   $.get("/mazeInfo/"+ mapStageId,function(data,status){
+        var mapShow = function(mapStageId){
+            $.get("/maze/show/"+ mapStageId,function(data,status){
                    data = JSON.parse(data);
                    $('#lblMazeName'+ mapStageId).text(data.Name);
                    $('#lblMazeIsCleared'+ mapStageId).text(data.Clear);
                    $('#lblMazeFreeReset'+ mapStageId).text(data.FreeReset);
                    $('#lblMazeResetCash'+ mapStageId).text(data.ResetCash);
-                });
-               })(i);
+                   });
+        };
+        $(document).ready(function(){
+            for(var i=2;i<9;i++){
+               mapShow(i);
             }
         });
 block content
     div#navfirst
-    div#navsecont
-    div#maincontent
+    div#navsecond
     div#sidebar
-    div.nav
-        div#userInfo
-        div#menu
-    div.content
-        p
+    div#maincontent
+        div
             table
                 tr
                     th 迷宫
@@ -55,6 +43,5 @@ block content
                         td
                             button 一键
                             button 重置
-
-    div
-        p #{info}
+        div#info
+            p #{info}

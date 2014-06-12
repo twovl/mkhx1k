@@ -7,7 +7,6 @@ var morgan  = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var errorhandler = require('errorhandler');
 
 var http = require('http');
@@ -27,7 +26,6 @@ app.use(bodyParser());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 app.use(cookieParser('mkhx1k 185'));
-app.use(session({secret: 'mkhx1k 185'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
