@@ -1,6 +1,9 @@
 {
   "name": "mkhx-agent",
   "version": "0.0.1",
+  "dependencies": {
+    "async": "0.9.0"
+  },
   "author": {
     "name": "twovl",
     "email": "wangliang2000@hotmail.com"

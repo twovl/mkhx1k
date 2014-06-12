@@ -2,13 +2,11 @@ extends layout
 
 block content
   p
-      form(action="login" method="post")
-          label 用户名：
-              input(name='username')
-          br
-          label 密码：
-              input(type='password',name='password')
-          br
-          input(type='reset',value='重置')
-          input(type='submit',value='确认')
+    form(action="login" method="post")
+      div 
+        input(required type='text', name='username', placeholder='用户名')
+      div
+        input(required type='password', name='password', placeholder='密码')
+      div
+        button.sign(type='submit') 登录
   p  #{info}

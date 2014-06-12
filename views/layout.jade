@@ -5,6 +5,8 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     block scripts
         script(src='/jquery-1.11.1.js')
+        script.
+            $.ajaxSetup({cache:false});
   body
     div#wrapper
         div#header

@@ -1,6 +1,7 @@
 var http = require('http');
 var querystring = require('querystring');
 var URL = require('url');
+var async = require('async');
 var commons = require('./commons');
 var services = require('./game_server_services');
 
@@ -62,7 +63,7 @@ exports.maze = {
      * 获取迷宫状态信息
      * @param {String} host 游戏服务器地址
      * @param {String} sid 游戏服务器用户_sid
-     * @param {String|Number} mapStageId 迷宫所在的地图号
+     * @param {String} mapStageId 迷宫所在的地图号
      * @param {Function} callback Function(err,mazeInfo)
      */
     show: function (host, sid, mapStageId, callback){
@@ -100,6 +101,60 @@ exports.maze = {
         req.write(reqContent);
         req.end();
     },
+
+    /**
+     * 获取所有层信息
+     * @param {String} host 游戏服务器地址
+     * @param {String} sid 游戏服务器用户_sid
+     * @param {String} mapStageId 迷宫所在的地图号
+     * @param {Function} callback Function(err,mazeInfos)
+     */
+    infos: function(host, sid, mapStageId, callback){
+        var layerCount = 0;
+        console.log(mapStageId);
+        switch(mapStageId){
+            case '2':
+                layerCount = 3;
+                break;
+            case '3':
+                layerCount = 3;
+                break;
+            case '4':
+                layerCount = 4;
+                break;
+            case '5':
+                layerCount = 4;
+                break;
+            case '6':
+                layerCount = 5;
+                break;
+            case '7':
+                layerCount = 5;
+                break;
+            case '8':
+                layerCount = 5;
+                break;
+            default:
+                callback(mapStageId+'图没有迷宫',null);
+                return;
+        }
+        //存储所有的层信息
+        
+        //异步执行，获得所有层信息后，传给客户
+        var funs = {};
+        for (var i = 1; i <= layerCount; i++) {
+            (function(layerNum){
+                funs['layer'+layerNum] = function(callback){
+                    exports.maze.info(host, sid, mapStageId, layerNum, 
+                        function(err, mazeInfo){
+                            callback(null, err ? err : mazeInfo);
+                        });
+                }
+            })(i);
+        };
+        async.parallel(funs,callback);
+    },
+
     /**
      * 获取某层信息
      * @param {String} host 游戏服务器地址
@@ -144,5 +199,6 @@ exports.maze = {
         req.write(reqContent);
         req.end();
     },
+
     battle: function (host,sid,callback){}//TODO
 };

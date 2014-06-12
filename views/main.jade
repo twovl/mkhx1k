@@ -10,6 +10,12 @@ block append scripts
                    $('#lblMazeResetCash'+ mapStageId).text(data.ResetCash);
                    });
         };
+        var mapInfos = function(mapStageId){
+            //TODO
+            $.get('/maze/infos/'+mapStageId,function(data,status){
+                $('#info').text(data);
+                });
+        };
         $(document).ready(function(){
             for(var i=2;i<9;i++){
                mapShow(i);
@@ -28,6 +34,7 @@ block content
                     th 是否通关
                     th 免费重置
                     th 重置花费
+                    th 一键
                     th 操作
                 - for(var i=2;i<9;i++)
                     tr
@@ -41,7 +48,10 @@ block content
                         td
                             label(id = "lblMazeResetCash#{ i }") 0
                         td
-                            button 一键
+                            button 全刷
+                            button 宝箱
+                        td
                             button 重置
+                            button(onclick='mapInfos(#{ i });') 详情
         div#info
             p #{info}

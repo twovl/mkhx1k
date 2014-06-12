@@ -22,4 +22,7 @@ module.exports = function(app){
 
     //服务，获取迷宫信息json串
     app.get('/maze/show/:mapStageId',maze.show);
+    //服务，获取迷宫所有层信息json串
+    app.get('/maze/infos/:mapStageId',maze.infos);
+
 };

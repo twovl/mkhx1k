@@ -13,8 +13,8 @@ table {
 }
 
 th {
-    letter-spacing: 3px;
-    padding: 6px;
+    letter-spacing: 1px;
+    padding: 4px;
     background: #CAE8EA;
     border: 1px solid cornflowerblue;
 }
@@ -22,6 +22,20 @@ th {
 td {
     background: #fff;
     font-size:12px;
-    padding: 6px;
+
     border: 1px solid cornflowerblue;
+}
+
+button {
+    margin: 4px;
+}
+
+input {
+    margin: 2px;
+    font-family: 'Verdana';
+    width: 150px;
+}
+button.sign{
+    margin: 2px;
+    width: 150px;
 }

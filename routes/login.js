@@ -13,7 +13,10 @@ module.exports = function (req,res){
                     res.render('index',{info: JSON.stringify(err)});
                 }
                 else {
-                    res.cookie('remoteInfo',{'sid':userData.sid, 'host':userData.host},{maxAge: 3600, httpOnly: true});
+                    res.cookie('remoteInfo', {
+                        'sid':userData.sid, 
+                        'host':userData.host
+                        }, {maxAge: 3600000, httpOnly: true});
                     res.redirect('main');
                 };
             });
