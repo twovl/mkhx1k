@@ -111,7 +111,6 @@ exports.maze = {
      */
     infos: function(host, sid, mapStageId, callback){
         var layerCount = 0;
-        console.log(mapStageId);
         switch(mapStageId){
             case '2':
                 layerCount = 3;

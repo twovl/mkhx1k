@@ -11,10 +11,14 @@ block append scripts
                    });
         };
         var mapInfos = function(mapStageId){
-            //TODO
             $.get('/maze/infos/'+mapStageId,function(data,status){
-                $('#info').text(data);
-                });
+                data = JSON.parse(data);
+                for(var i in data){
+                    $('#info').append(
+                        '<dt>'+i+':</dt>'+
+                        '<dd>'+JSON.stringify(data[i])+'</dd>');
+                }
+            });
         };
         $(document).ready(function(){
             for(var i=2;i<9;i++){
@@ -53,5 +57,9 @@ block content
                         td
                             button 重置
                             button(onclick='mapInfos(#{ i });') 详情
-        div#info
-            p #{info}
+    div#console
+        h3#consoleTitle 控制台日志
+        div#consoleLog
+            dl#info
+                if info
+                    p #{info}
