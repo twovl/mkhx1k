@@ -151,7 +151,7 @@ exports.maze = {
                 }
             })(i);
         };
-        async.parallel(funs,callback);
+        async.series(funs,callback);
     },
 
     /**

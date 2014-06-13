@@ -17,7 +17,7 @@ exports.deviceInfo = function () {
     return {
         userPassword:"",
         userName: "",
-        udid : "db2ca54b9751ac55e800c41e8a4ed91d",
+        udid : "db2ca54b9751ac56e800c41e8a4ed91e",
         gameName:"CARD-WP8-CHS",
         clientType: "wp8",
         releaseChannel: "wp8",

@@ -29,14 +29,15 @@ button {
     margin: 4px;
 }
 
-input {
+input.sign {
     margin: 2px;
-    font-family: 'Verdana';
+    font-family: 'Microsoft YaHei';
     width: 150px;
 }
 button.sign{
     margin: 2px;
-    width: 150px;
+    width: 154px;
+    font-family: 'Microsoft YaHei';
 }
 
 div#console {
@@ -64,3 +65,23 @@ h3#consoleTitle{
     font-weight: bold;
     margin-bottom: 0px;
 }
+#maincover{ 
+    z-index:900; 
+    position:fixed; 
+    left:0px; 
+    top:0px; 
+    width:0px; 
+    height:0px;  
+    background:#000; 
+    filter: alpha(opacity=45); 
+    opacity: 0.45; 
+    -moz-opacity: 0.45; 
+    -khtml-opacity: 0.45; 
+    visibility: hidden;
+
+    -webkit-transition:visibility 0.5s ease-in-out;
+    -moz-transition:visibility 0.5s ease-in-out;
+    -ms-transition:visibility 0.5s ease-in-out;
+    -o-transition:visibility 0.5s ease-in-out;
+    transition:visibility 0.5s ease-in-out
+}   
