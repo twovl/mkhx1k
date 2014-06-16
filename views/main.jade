@@ -1,21 +1,6 @@
 extends layout
 block append scripts
     script.
-        var coverMainContent = function(){
-            var width = $('#maincontent').width();
-            var height = $('#maincontent').height();
-            var offset = $('#maincontent').offset();
-            $('#maincover').offset(offset);
-            $('#maincover').width(width);
-            $('#maincover').height(height);
-            $('#maincover').fadeIn();
-        };
-        var uncoverMainContent = function(){
-            $('#maincover').offset({left:0,top:0});
-            $('#maincover').width(0);
-            $('#maincover').height(0);
-            $('#maincover').fadeOut();
-        };
         var mapShow = function(mapStageId){
             $.get("/maze/show/"+ mapStageId,function(data,status){
                    data = JSON.parse(data);
@@ -26,7 +11,6 @@ block append scripts
                    });
         };
         var mapInfos = function(mapStageId){
-            //coverMainContent();            
             $.get('/maze/infos/'+mapStageId,function(data,status){
                 $('#info').append("<h3 style='color:green;'>--------------"+mapStageId+'迷宫信息-------------</h3>');
                 data = JSON.parse(data);
@@ -36,21 +20,14 @@ block append scripts
                         '<dd>'+JSON.stringify(data[i])+'</dd>');
                 }
                 $('#consoleLog').scrollTop($('#info').height());
-                //uncoverMainContent();
             });
         };
         $(document).ready(function(){ 
             $(document).ajaxSend(function(){
-                var width = $('#maincontent').width();
-                var height = $('#maincontent').height();
-                var offset = $('#maincontent').offset();
-                $('#maincover').offset(offset);
-                $('#maincover').width(width);
-                $('#maincover').height(height);
-                $('#maincover').css('visibility','visible');
+                $('button').attr('disabled',true);
                 });
             $(document).ajaxComplete(function(){
-                $('#maincover').css('visibility','hidden');
+                $('button').attr('disabled',false);
                 });
             for(var i=2;i<9;i++){
                mapShow(i);
@@ -90,7 +67,6 @@ block content
                         td
                             button 重置
                             button(onclick='mapInfos(#{ i });') 详情
-    div#maincover
     div#console
         h3#consoleTitle 控制台日志
         div#consoleLog
