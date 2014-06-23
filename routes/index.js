@@ -27,5 +27,6 @@ module.exports = function(app){
 
     //服务，战斗迷宫中某一层的某一个index
     app.get('/maze/battle/:mapStageId/:layer/:itemIndex/:manual',maze.battle);
+    //TODO
 
 };
