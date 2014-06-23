@@ -1,7 +1,7 @@
 extends layout
 block append scripts
     script.
-        var mapShow = function(mapStageId){
+        function mapShow(mapStageId){
             $.get("/maze/show/"+ mapStageId,function(data,status){
                    data = JSON.parse(data);
                    $('#lblMazeName'+ mapStageId).text(data.Name);
@@ -10,7 +10,7 @@ block append scripts
                    $('#lblMazeResetCash'+ mapStageId).text(data.ResetCash);
                    });
         };
-        var mapInfos = function(mapStageId){
+        function mapInfos(mapStageId){
             $.get('/maze/infos/'+mapStageId,function(data,status){
                 $('#info').append("<h3 style='color:green;'>--------------"+mapStageId+'迷宫信息-------------</h3>');
                 data = JSON.parse(data);

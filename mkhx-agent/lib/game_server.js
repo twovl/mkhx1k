@@ -2,8 +2,9 @@ var http = require('http');
 var querystring = require('querystring');
 var URL = require('url');
 var async = require('async');
-var commons = require('./commons');
-var services = require('./game_server_services');
+var commons = require('./commons.js');
+var services = require('./game_server_services.js');
+var allcards = require('./allcards.js');
 
 /**
  * 登录游戏服务器
@@ -150,7 +151,7 @@ exports.maze = {
                         });
                 }
             })(i);
-        };
+        }
         async.series(funs,callback);
     },
 
@@ -158,8 +159,8 @@ exports.maze = {
      * 获取某层信息
      * @param {String} host 游戏服务器地址
      * @param {String} sid 游戏服务器用户_sid
-     * @param {String|Number} mapStageId 迷宫所在的地图号
-     * @param {String|Number} layer 层号
+     * @param {String} mapStageId 迷宫所在的地图号
+     * @param {String} layer 层号
      * @param {Function} callback Function(err,mazeInfo)
      */
     info: function (host, sid, mapStageId, layer,callback){
@@ -199,5 +200,88 @@ exports.maze = {
         req.end();
     },
 
-    battle: function (host,sid,callback){}//TODO
+    /**
+     * 与迷宫一层中的某个index上的怪战斗
+     * @param {String} host  游戏服务器地址
+     * @param {String} sid 游戏服务器用户_sid
+     * @param {String} mapStageId 迷宫所在的地图号
+     * @param {String} layer 层号
+     * @param {String} itemIndex 怪的index
+     * @param {String} manual 是否手动，0否，1是
+     * @param {Function} callback Function(err,battleResult)
+     */
+    battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback){
+        var server = {
+            host: host,
+            path: services.maze.battle.path,
+            method: services.maze.battle.method,
+            headers: commons.headers()
+        };
+        var reqContent = services.maze.battle.params;
+        reqContent.MapStageId = mapStageId;
+        reqContent.Layer = layer;
+        reqContent.manual = manual;
+        reqContent.ItemIndex = itemIndex;
+        reqContent = querystring.stringify(reqContent);
+        server.headers['Cookie'] = '_sid=' + sid;
+        server.headers['Content-Length'] = reqContent.length;
+
+        var req = http.request(server,function(res){
+            res.setEncoding('utf8');
+            res.on('data',function(data) {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.status == '1') {
+                        //获取成功
+                        data = data.data;
+
+                        if(manual){
+                        //判断是否自动战斗
+                            delete data["BattleId"];
+                            delete data["prepare"];
+                            delete data["AttackPlayer"];
+                            delete data["DefendPlayer"];
+                            delete data["Battle"];
+                            if(data['Win']){
+                                //是否胜利
+                                var cardId = data['ExtData']['Award']['CardId'];
+                                var secondDrop = data['ExtData']['Award']['SecondDropCard'];
+
+                                //翻译战斗获得卡牌
+                                data['ExtData']['Award']['CardId'] = {
+                                    'CardId':cardId,
+                                    'CardName': allcards[cardId]['CardName']
+                                };
+
+                                if(secondDrop){
+                                    //是否获得其它掉落
+                                    var secondId = 0;
+                                    for(var i=0; i<secondDrop.length; i++){
+                                        secondId = secondDrop[i]['CardId'];
+                                        secondDrop[i]['CardId'] = {
+                                            'CardId':secondId,
+                                            'CardName': allcards[secondId]['CardName']
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            //TODO 非自动战斗回复
+                        }
+                        callback(null, data);
+                    }
+                    else {
+                        //获取失败
+                        callback(data, null);
+                    }
+                }
+                else {
+                    callback('服务器无响应', null);
+                }
+            });
+        });
+        req.write(reqContent);
+        req.end();
+    }
 };

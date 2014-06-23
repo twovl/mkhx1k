@@ -14,3 +14,19 @@ exports.infos = function(req, res){
         res.send(JSON.stringify(err ? err : mazeInfos));
     });
 };
+exports.battle = function(req, res){
+    var mapStageId = req.params.mapStageId;
+    var layer = req.params.layer;
+    var itemIndex = req.params.itemIndex;
+    var manual = req.params.manual;
+    var remoteInfo = req.cookies.remoteInfo;
+    mkhxServer.maze.battle(
+        remoteInfo.host,
+        remoteInfo.sid,
+        mapStageId, layer,
+        itemIndex, manual,
+        function (err, battleResult){
+            res.send(JSON.stringify(err ? err : battleResult));
+        }
+    );
+};

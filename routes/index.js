@@ -25,4 +25,7 @@ module.exports = function(app){
     //服务，获取迷宫所有层信息json串
     app.get('/maze/infos/:mapStageId',maze.infos);
 
+    //服务，战斗迷宫中某一层的某一个index
+    app.get('/maze/battle/:mapStageId/:layer/:itemIndex/:manual',maze.battle);
+
 };
