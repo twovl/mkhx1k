@@ -21,12 +21,12 @@ module.exports = function(app){
     });
 
     //服务，获取迷宫信息json串
-    app.get('/maze/show/:mapStageId',maze.show);
+    app.get('/maze/show/:mapStageId(\\d+)',maze.show);
     //服务，获取迷宫所有层信息json串
-    app.get('/maze/infos/:mapStageId',maze.infos);
+    app.get('/maze/infos/:mapStageId(\\d+)',maze.infos);
 
     //服务，战斗迷宫中某一层的某一个index
-    app.get('/maze/battle/:mapStageId/:layer/:itemIndex/:manual',maze.battle);
+    app.get('/maze/battle/:mapStageId(\\d+)/:layer(\\d+)/:itemIndex(\\d+)/:manual(\\d+)',maze.battle);
     //TODO
 
 };
