@@ -1,6 +1,7 @@
 var http = require('http');
 var querystring = require('querystring');
 var URL = require('url');
+var zlib = require('zlib');
 var async = require('async');
 var commons = require('./commons.js');
 var services = require('./game_server_services.js');
@@ -207,7 +208,7 @@ exports.maze = {
      * @param {String} mapStageId 迷宫所在的地图号
      * @param {String} layer 层号
      * @param {String} itemIndex 怪的index
-     * @param {String} manual 是否手动，0否，1是
+     * @param {Boolean} manual 是否手动，0否，1是
      * @param {Function} callback Function(err,battleResult)
      */
     battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback){
@@ -227,8 +228,13 @@ exports.maze = {
         server.headers['Content-Length'] = reqContent.length;
 
         var req = http.request(server,function(res){
+            var data = '';
+            res = res.pipe(zlib.createUnzip());
             res.setEncoding('utf8');
-            res.on('data',function(data) {
+            res.on('data', function (chunk) {
+                data+=chunk;
+            });
+            res.on('end',function() {
                 if (data) {
                     data = JSON.parse(data);
                     if (data.status == '1') {
@@ -242,20 +248,39 @@ exports.maze = {
                             delete data["AttackPlayer"];
                             delete data["DefendPlayer"];
                             delete data["Battle"];
-                            if(data['Win']){
+                            if(data['Win']==1){
                                 //是否胜利
                                 var cardId = data['ExtData']['Award']['CardId'];
                                 var secondDrop = data['ExtData']['Award']['SecondDropCard'];
-
+                                var secondId = 0;
                                 //翻译战斗获得卡牌
-                                data['ExtData']['Award']['CardId'] = {
-                                    'CardId':cardId,
-                                    'CardName': allcards[cardId]['CardName']
-                                };
-
+                                    data['ExtData']['Award']['CardId'] = {
+                                        'CardId': cardId,
+                                        'CardName': allcards[cardId]['CardName']
+                                    };
                                 if(secondDrop){
                                     //是否获得其它掉落
-                                    var secondId = 0;
+                                    for(var i=0; i<secondDrop.length; i++){
+                                        secondId = secondDrop[i]['CardId'];
+                                        secondDrop[i]['CardId'] = {
+                                            'CardId':secondId,
+                                            'CardName': allcards[secondId]['CardName']
+                                        };
+                                    }
+                                }
+                                //TODO 是否获得碎片 data["CardChip"] = [{"ChipId":"503","Num":1}]
+                                //TODO 改为gzip模式
+
+                                //翻译通关获得卡牌
+                                cardId = data['ExtData']['Clear']['CardId'];
+                                secondDrop = data['ExtData']['Clear']['SecondDropCard'];
+                                data['ExtData']['Clear']['CardId'] = {
+                                    'CardId': cardId,
+                                    'CardName': allcards[cardId]['CardName']
+                                };
+                                if(secondDrop){
+                                    //是否获得其它掉落
+                                    secondId = 0;
                                     for(var i=0; i<secondDrop.length; i++){
                                         secondId = secondDrop[i]['CardId'];
                                         secondDrop[i]['CardId'] = {

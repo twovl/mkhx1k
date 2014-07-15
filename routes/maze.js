@@ -9,7 +9,7 @@ exports.show = function (req, res) {
 };
 exports.info = function(req, res){
     var mapStageId = req.params.mapStageId;
-    var layer = req.param.layer;
+    var layer = req.params.layer;
     var remoteInfo = req.cookies.remoteInfo;
     mkhxServer.maze.info(remoteInfo.host, remoteInfo.sid, mapStageId, layer, function (err, mazeInfo) {
         res.send(JSON.stringify(err ? err : mazeInfo));
@@ -24,9 +24,9 @@ exports.infos = function (req, res) {
 };
 exports.battle = function (req, res) {
     var mapStageId = req.body['mapStageId'];
-    var layer = req.body['mapStageId'];
-    var itemIndex = req.body['mapStageId'];
-    var manual = req.body['mapStageId'];
+    var layer = req.body['layer'];
+    var itemIndex = req.body['itemIndex'];
+    var manual = req.body['manual'];
     var remoteInfo = req.cookies.remoteInfo;
     mkhxServer.maze.battle(
         remoteInfo.host,

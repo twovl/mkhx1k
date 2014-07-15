@@ -10,7 +10,7 @@ block append scripts
                 $('button').attr('disabled',false);
                 });
             for(var i=2;i<9;i++){
-               mapShow(i);
+               mazeShow(i);
             }
         });
 block content
@@ -40,8 +40,8 @@ block content
                         td
                             label(id = "lblMazeResetCash#{ i }") 0
                         td
-                            button 全刷
-                            button 宝箱
+                            button(onclick='syncMazeBattleAll(#{ i });') 全刷
+                            button(onclick='syncMazeBattleBox(#{ i });') 宝箱
                         td
                             button 重置
                             button(onclick='mazeInfos(#{ i });') 详情

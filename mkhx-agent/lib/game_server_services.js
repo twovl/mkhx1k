@@ -104,6 +104,7 @@ exports.maze = {
         }
         */
     },
+    //战斗返回结果charset为空，其他为utf8
     battle:{
         path:'/maze.php?do=Battle&v=6614&OpenCardChip=1&phpp=WP8'+
              '&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
@@ -133,7 +134,10 @@ exports.maze = {
                     "Clear": {
                         "IsClear": 0,
                         "CardId": 0,
-                        "Coins": 0
+                        "Coins": 0,
+                             "SecondDropCard": [{
+                             "CardId": "7002"
+                             }]
                     },
                     "User": {
                         "Level": 36,
