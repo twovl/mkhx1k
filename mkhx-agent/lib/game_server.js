@@ -139,9 +139,9 @@ exports.maze = {
                 return;
         }
         //存储所有的层信息
-        
-        //异步执行，获得所有层信息后，传给客户
         var funs = {};
+        //同步执行，获得所有层信息后，传给客户
+
         for (var i = 1; i <= layerCount; i++) {
             (function(layerNum){
                 funs['layer'+layerNum] = function(callback){
