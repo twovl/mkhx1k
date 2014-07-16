@@ -14,17 +14,17 @@ var allcards = require('./allcards.js');
  */
 exports.passportLogin = function (passport, callback) {
     var server = {
-        host: URL.parse(passport.GS_IP).host,
+        host: URL.parse(passport['GS_IP']).host,
         path: services.passportLogin.path,
         method: services.passportLogin.method,
         headers: commons.headers()
     };
     var reqContent = services.passportLogin.params;
-    reqContent.Udid = commons.deviceInfo.udid;
-    reqContent.time = passport.timestamp;
-    reqContent.UserName = passport.userName;
-    reqContent.key = passport.key;
-    reqContent.Password = passport.U_ID;
+    reqContent['Udid'] = commons.deviceInfo.udid;
+    reqContent['time'] = passport['timestamp'];
+    reqContent['UserName'] = passport['userName'];
+    reqContent['key'] = passport['key'];
+    reqContent['Password'] = passport['U_ID'];
     reqContent = querystring.stringify(reqContent);
     server.headers['Content-Length'] = reqContent.length;
     var req = http.request(server, function (res) {
@@ -63,7 +63,7 @@ exports.passportLogin = function (passport, callback) {
                 }
             }
             else {
-                callback('游戏服务器无响应', null);
+                callback({'status':0,'message':'游戏服务器无响应'}, null);
             }
         });
     });
@@ -91,7 +91,7 @@ exports.maze = {
             headers: commons.headers()
         };
         var reqContent = services.maze.show.params;
-        reqContent.MapStageId = mapStageId;
+        reqContent['MapStageId'] = mapStageId;
         reqContent = querystring.stringify(reqContent);
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
@@ -126,7 +126,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('游戏服务器无响应', null);
+                    callback({'status':0,'message':'游戏服务器无响应'}, null);
                 }
             });
         });
@@ -166,7 +166,7 @@ exports.maze = {
                 layerCount = 5;
                 break;
             default:
-                callback(mapStageId + '图没有迷宫', null);
+                callback({'status':0,'message':mapStageId + '图没有迷宫'}, null);
                 return;
         }
         //存储所有的层信息
@@ -202,8 +202,8 @@ exports.maze = {
             headers: commons.headers()
         };
         var reqContent = services.maze.info.params;
-        reqContent.MapStageId = mapStageId;
-        reqContent.Layer = layer;
+        reqContent['MapStageId'] = mapStageId;
+        reqContent['Layer'] = layer;
         reqContent = querystring.stringify(reqContent);
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
@@ -238,7 +238,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('游戏服务器无响应', null);
+                    callback({'status':0,'message':'游戏服务器无响应'}, null);
                 }
             });
         });
@@ -264,10 +264,10 @@ exports.maze = {
             headers: commons.headers()
         };
         var reqContent = services.maze.battle.params;
-        reqContent.MapStageId = mapStageId;
-        reqContent.Layer = layer;
-        reqContent.manual = manual;
-        reqContent.ItemIndex = itemIndex;
+        reqContent['MapStageId'] = mapStageId;
+        reqContent['Layer'] = layer;
+        reqContent['manual'] = manual;
+        reqContent['ItemIndex'] = itemIndex;
         reqContent = querystring.stringify(reqContent);
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
@@ -324,7 +324,6 @@ exports.maze = {
                                     }
                                 }
                                 //TODO 是否获得碎片 data["CardChip"] = [{"ChipId":"503","Num":1}]
-                                //TODO 改为gzip模式
 
                                 //翻译通关获得卡牌
                                 cardId = data['ExtData']['Clear']['CardId'];
@@ -357,7 +356,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('游戏服务器无响应', null);
+                    callback({'status':0,'message':'游戏服务器无响应'}, null);
                 }
             });
         });
@@ -380,7 +379,7 @@ exports.maze = {
             headers: commons.headers()
         };
         var reqContent = services.maze.reset.params;
-        reqContent.MapStageId = mapStageId;
+        reqContent['MapStageId'] = mapStageId;
         reqContent = querystring.stringify(reqContent);
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
@@ -414,7 +413,7 @@ exports.maze = {
                     }
                 }
                 else{
-                    callback('游戏服务器无响应', null);
+                    callback({'status':0,'message':'游戏服务器无响应'}, null);
                 }
             });
         });

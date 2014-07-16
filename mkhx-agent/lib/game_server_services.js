@@ -4,13 +4,13 @@ exports.passportLogin = {
         '&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
     method: 'POST',
     params: {
-        Udid: '',//设备ID
-        time: '',//登录主服务器返回的时间戳
-        UserName: '',//登录用户名
-        Origin: 'WP8',
-        key: '',//登录服务器返回的key
-        Password: '',//登录主服务器返回的U_ID
-        Devicetoken: ''//空
+        'Udid': '',//设备ID
+        'time': '',//登录主服务器返回的时间戳
+        'UserName': '',//登录用户名
+        'Origin': 'WP8',
+        'key': '',//登录服务器返回的key
+        'Password': '',//登录主服务器返回的U_ID
+        'Devicetoken': ''//空
     }
     /*
      返回数据结构
@@ -37,7 +37,7 @@ exports.maze = {
             '&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
         method: 'POST',
         params: {
-            MapStageId: 7//迷宫号，2-8塔
+            'MapStageId': 7//迷宫号，2-8塔
         }
         /*
          返回数据结构
@@ -66,8 +66,8 @@ exports.maze = {
             '&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
         method: 'POST',
         params: {
-            MapStageId: 3,//迷宫号，2-8塔
-            Layer: 1//层号
+            'MapStageId': 3,//迷宫号，2-8塔
+            'Layer': 1//层号
         }
         /*
          返回数据结构
@@ -110,10 +110,10 @@ exports.maze = {
             '&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
         method: 'POST',
         params: {
-            MapStageId: 3,//迷宫号，2-8塔
-            manual: 0,//是否手动
-            Layer: 1,//层号
-            ItemIndex: 23//对应getMazeLayerInfo返回结果中data.Map.Items[]中值为2、3、5的索引
+            'MapStageId': 3,//迷宫号，2-8塔
+            'manual': 0,//是否手动
+            'Layer': 1,//层号
+            'ItemIndex': 23//对应getMazeLayerInfo返回结果中data.Map.Items[]中值为2、3、5的索引
         }
         /*
          自动战斗的返回数据
@@ -121,7 +121,7 @@ exports.maze = {
          "status": 1,
          "data": {
          "BattleId": "1c48682df61e0274c644f24c803652475385f37c30a23",
-         "Win": 1,
+         "Win": 1,//失败是2
          "ExtData": {
          "Award": {
          "Coins": 640,
@@ -243,7 +243,7 @@ exports.maze = {
         path: '/maze.php?do=Reset&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
         method: 'POST',
         params: {
-            MapStageId: 2
+            'MapStageId': 2
         }
         /*
          {

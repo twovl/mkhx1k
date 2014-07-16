@@ -6,7 +6,7 @@ exports.headers = function () {
         'UA-CPU': 'ARM',
         'User-Agent': 'Mozilla/5.0 (compatible; MSIE 10.0; Windows Phone 8.0; Trident/6.0; IEMobile/10.0; ARM; Touch; NOKIA; Lumia 920)',
         'Content-Length': 0,
-        Accept: '*/*',
+        'Accept': '*/*',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept-Language': 'zh-CN',
         'Accept-Encoding': 'gzip, deflate',

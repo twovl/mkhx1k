@@ -209,3 +209,6 @@ function mazeInfos(mapStageId) {
         $('#consoleLog').scrollTop(output.height());
     });
 }
+function mazeReset(mapStageId){
+    //TODO
+}

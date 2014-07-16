@@ -33,6 +33,9 @@ module.exports = function(app){
     //itemIndex
     //manual
     app.post('/maze/battle',maze.battle);
+
+    //服务，重置迷宫
+    app.put('/maze/reset/:mapStageId(\\d+)',maze.reset);
     //TODO
 
 };
