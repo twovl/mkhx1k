@@ -9,7 +9,7 @@ exports.headers = function () {
         Accept: '*/*',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Accept-Language': 'zh-CN',
-        // 'Accept-Encoding': 'gzip, deflate',
+        'Accept-Encoding': 'gzip, deflate',
         'Proxy-Connection': 'Keep-Alive'
     };
 };

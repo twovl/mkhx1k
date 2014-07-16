@@ -12,27 +12,42 @@ var allcards = require('./allcards.js');
  * @param {JSON} passport
  * @param {function} callback function(err,userData),userData包含passport、pptRtnData、host、sid
  */
-exports.passportLogin = function (passport,callback){
-    var server={
-        host:URL.parse(passport.GS_IP).host,
-        path:services.passportLogin.path,
-        method:services.passportLogin.method,
-        headers:commons.headers()
+exports.passportLogin = function (passport, callback) {
+    var server = {
+        host: URL.parse(passport.GS_IP).host,
+        path: services.passportLogin.path,
+        method: services.passportLogin.method,
+        headers: commons.headers()
     };
     var reqContent = services.passportLogin.params;
-    reqContent.Udid=commons.deviceInfo.udid;
+    reqContent.Udid = commons.deviceInfo.udid;
     reqContent.time = passport.timestamp;
     reqContent.UserName = passport.userName;
     reqContent.key = passport.key;
     reqContent.Password = passport.U_ID;
-    reqContent  = querystring.stringify(reqContent);
+    reqContent = querystring.stringify(reqContent);
     server.headers['Content-Length'] = reqContent.length;
-    var req = http.request(server,function(res){
-        res.setEncoding('utf8');
-        res.on('data',function(data){
-            if(data){
+    var req = http.request(server, function (res) {
+        var data = '';
+        var stream = null;
+        switch (res.headers['content-encoding']){
+            case 'gzip':
+                stream = res.pipe(zlib.createGunzip());
+                break;
+            case 'deflate':
+                stream = res.pipe(zlib.createInflate());
+                break;
+            default :
+                stream = res;
+        }
+        stream.setEncoding('utf8');
+        stream.on('data', function (chunk) {
+            data += chunk;
+        });
+        stream.on('end', function () {
+            if (data) {
                 data = JSON.parse(data);
-                if(data.status){
+                if (data.status) {
                     //登录成功
                     var userData = {
                         passport: passport,
@@ -40,15 +55,15 @@ exports.passportLogin = function (passport,callback){
                         host: server.host,
                         sid: res.headers['set-cookie'][0].split(/\W+/)[1]//获取cookie中的sid
                     };
-                    callback(null,userData);
+                    callback(null, userData);
                 }
                 else {
                     //登录失败
-                    callback(data,null);
+                    callback(data, null);
                 }
             }
-            else{
-                callback('服务器无响应',null);
+            else {
+                callback('服务器无响应', null);
             }
         });
     });
@@ -58,7 +73,7 @@ exports.passportLogin = function (passport,callback){
 
 /**
  * 迷宫相关操作
- * 
+ *
  */
 exports.maze = {
     /**
@@ -68,8 +83,8 @@ exports.maze = {
      * @param {String} mapStageId 迷宫所在的地图号
      * @param {Function} callback Function(err,mazeInfo)
      */
-    show: function (host, sid, mapStageId, callback){
-        var server={
+    show: function (host, sid, mapStageId, callback) {
+        var server = {
             host: host,
             path: services.maze.show.path,
             method: services.maze.show.method,
@@ -81,22 +96,37 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server,function(res){
-            res.setEncoding('utf8');
-            res.on('data',function(data){
+        var req = http.request(server, function (res) {
+            var data = '';
+            var stream = null;
+            switch (res.headers['content-encoding']){
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
+            });
+            stream.on('end', function () {
                 if (data) {
                     data = JSON.parse(data);
-                    if(data.status=='1'){
+                    if (data.status == '1') {
                         //获取成功
-                        callback(null,data.data);
+                        callback(null, data.data);
                     }
                     else {
                         //获取失败
-                        callback(data,null);
+                        callback(data, null);
                     }
                 }
                 else {
-                    callback('服务器无响应',null);
+                    callback('服务器无响应', null);
                 }
             });
         });
@@ -111,9 +141,9 @@ exports.maze = {
      * @param {String} mapStageId 迷宫所在的地图号
      * @param {Function} callback Function(err,mazeInfos)
      */
-    infos: function(host, sid, mapStageId, callback){
+    infos: function (host, sid, mapStageId, callback) {
         var layerCount = 0;
-        switch(mapStageId){
+        switch (mapStageId) {
             case '2':
                 layerCount = 3;
                 break;
@@ -136,7 +166,7 @@ exports.maze = {
                 layerCount = 5;
                 break;
             default:
-                callback(mapStageId+'图没有迷宫',null);
+                callback(mapStageId + '图没有迷宫', null);
                 return;
         }
         //存储所有的层信息
@@ -144,16 +174,16 @@ exports.maze = {
         //同步执行，获得所有层信息后，传给客户
 
         for (var i = 1; i <= layerCount; i++) {
-            (function(layerNum){
-                funs['layer'+layerNum] = function(callback){
-                    exports.maze.info(host, sid, mapStageId, layerNum, 
-                        function(err, mazeInfo){
+            (function (layerNum) {
+                funs['layer' + layerNum] = function (callback) {
+                    exports.maze.info(host, sid, mapStageId, layerNum,
+                        function (err, mazeInfo) {
                             callback(null, err ? err : mazeInfo);
                         });
                 }
             })(i);
         }
-        async.series(funs,callback);
+        async.series(funs, callback);
     },
 
     /**
@@ -164,8 +194,8 @@ exports.maze = {
      * @param {String} layer 层号
      * @param {Function} callback Function(err,mazeInfo)
      */
-    info: function (host, sid, mapStageId, layer,callback){
-        var server={
+    info: function (host, sid, mapStageId, layer, callback) {
+        var server = {
             host: host,
             path: services.maze.info.path,
             method: services.maze.info.method,
@@ -178,24 +208,39 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server,function(res){
-                res.setEncoding('utf8');
-                res.on('data',function(data) {
-                    if (data) {
-                        data = JSON.parse(data);
-                        if (data.status == '1') {
-                            //获取成功
-                            callback(null, data.data);
-                        }
-                        else {
-                            //获取失败
-                            callback(data, null);
-                        }
+        var req = http.request(server, function (res) {
+            var data = '';
+            var stream = null;
+            switch (res.headers['content-encoding']){
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
+            });
+            stream.on('end', function () {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.status == '1') {
+                        //获取成功
+                        callback(null, data.data);
                     }
                     else {
-                        callback('服务器无响应', null);
+                        //获取失败
+                        callback(data, null);
                     }
-                });
+                }
+                else {
+                    callback('服务器无响应', null);
+                }
+            });
         });
         req.write(reqContent);
         req.end();
@@ -211,7 +256,7 @@ exports.maze = {
      * @param {Boolean} manual 是否手动，0否，1是
      * @param {Function} callback Function(err,battleResult)
      */
-    battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback){
+    battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback) {
         var server = {
             host: host,
             path: services.maze.battle.path,
@@ -227,43 +272,53 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server,function(res){
+        var req = http.request(server, function (res) {
             var data = '';
-            res = res.pipe(zlib.createUnzip());
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
-                data+=chunk;
+            var stream = null;
+            switch (res.headers['content-encoding']){
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
             });
-            res.on('end',function() {
+            stream.on('end', function () {
                 if (data) {
                     data = JSON.parse(data);
                     if (data.status == '1') {
                         //获取成功
                         data = data.data;
 
-                        if(manual){
-                        //判断是否自动战斗
+                        if (manual) {
+                            //判断是否自动战斗
                             delete data["BattleId"];
                             delete data["prepare"];
                             delete data["AttackPlayer"];
                             delete data["DefendPlayer"];
                             delete data["Battle"];
-                            if(data['Win']==1){
+                            if (data['Win'] == 1) {
                                 //是否胜利
                                 var cardId = data['ExtData']['Award']['CardId'];
                                 var secondDrop = data['ExtData']['Award']['SecondDropCard'];
                                 var secondId = 0;
                                 //翻译战斗获得卡牌
-                                    data['ExtData']['Award']['CardId'] = {
-                                        'CardId': cardId,
-                                        'CardName': allcards[cardId]['CardName']
-                                    };
-                                if(secondDrop){
+                                data['ExtData']['Award']['CardId'] = {
+                                    'CardId': cardId,
+                                    'CardName': allcards[cardId]['CardName']
+                                };
+                                if (secondDrop) {
                                     //是否获得其它掉落
-                                    for(var i=0; i<secondDrop.length; i++){
+                                    for (var i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
                                         secondDrop[i]['CardId'] = {
-                                            'CardId':secondId,
+                                            'CardId': secondId,
                                             'CardName': allcards[secondId]['CardName']
                                         };
                                     }
@@ -278,20 +333,20 @@ exports.maze = {
                                     'CardId': cardId,
                                     'CardName': allcards[cardId]['CardName']
                                 };
-                                if(secondDrop){
+                                if (secondDrop) {
                                     //是否获得其它掉落
                                     secondId = 0;
-                                    for(var i=0; i<secondDrop.length; i++){
+                                    for (var i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
                                         secondDrop[i]['CardId'] = {
-                                            'CardId':secondId,
+                                            'CardId': secondId,
                                             'CardName': allcards[secondId]['CardName']
                                         };
                                     }
                                 }
                             }
                         }
-                        else{
+                        else {
                             //TODO 非自动战斗回复
                         }
                         callback(null, data);

@@ -1,4 +1,5 @@
 var http = require('http');
+var zlib = require('zlib');
 var commons = require('./commons');
 
 /**
@@ -28,8 +29,23 @@ exports.login = function (username, password, callback){
     server.headers['Content-Length'] = reqContent.length;
     //2、登录主服务器，验证用户，获取用户信息（验证信息、时间戳、所在服务器等）
     var req = http.request(server,function(res){
-        res.setEncoding('utf8');
-        res.on('data',function(data) {
+        var data = '';
+        var stream = null;
+        switch (res.headers['content-encoding']){
+            case 'gzip':
+                stream = res.pipe(zlib.createGunzip());
+                break;
+            case 'deflate':
+                stream = res.pipe(zlib.createInflate());
+                break;
+            default :
+                stream = res;
+        }
+        stream.setEncoding('utf8');
+        stream.on('data', function (chunk) {
+            data += chunk;
+        });
+        stream.on('end', function() {
             if(data){
                 //有登录返回数据
                 /**

@@ -1,7 +1,7 @@
 //登录游戏服务器
 exports.passportLogin = {
     path:'/login.php?do=PassportLogin&v=6614&OpenCardChip=1&phpp=WP8'+
-         '&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
+         '&phpl=ZH_CN&pvc=1.4.7&pvb=2014-06-05+11%3a00%3a00',
     method:'POST',
     params:{
         Udid:'',//设备ID
@@ -34,7 +34,7 @@ exports.maze = {
     //获取迷宫信息
     show:{
         path:'/maze.php?do=Show&v=6614&OpenCardChip=1&phpp=WP8'+
-             '&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
+             '&phpl=ZH_CN&pvc=1.4.7&pvb=2014-06-05+11%3a00%3a00',
         method:'POST',
         params:{
             MapStageId:'7'//迷宫号，2-8塔
@@ -63,7 +63,7 @@ exports.maze = {
     //获取迷宫某层信息
     info:{
         path:'/maze.php?do=Info&v=6614&OpenCardChip=1&phpp=WP8'+
-             '&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
+             '&phpl=ZH_CN&pvc=1.4.7&pvb=2014-06-05+11%3a00%3a00',
         method:'POST',
         params:{
             MapStageId:'3',//迷宫号，2-8塔
@@ -107,7 +107,7 @@ exports.maze = {
     //战斗返回结果charset为空，其他为utf8
     battle:{
         path:'/maze.php?do=Battle&v=6614&OpenCardChip=1&phpp=WP8'+
-             '&phpl=ZH_CN&pvc=1.4.6&pvb=2014-04-24+12%3a05%3a00',
+             '&phpl=ZH_CN&pvc=1.4.7&pvb=2014-06-05+11%3a00%3a00',
         method:'POST',
         params:{
             MapStageId:'3',//迷宫号，2-8塔
@@ -237,5 +237,11 @@ exports.maze = {
             }
         }
         */
+    }
+};
+exports.card = {
+    getAllCard:{
+        path:'/card.php?do=GetAllCard&v=4016&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.4.7&pvb=2014-06-05+11%3a00%3a00',
+        method:'GET'
     }
 };
