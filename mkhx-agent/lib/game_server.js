@@ -30,7 +30,7 @@ exports.passportLogin = function (passport, callback) {
     var req = http.request(server, function (res) {
         var data = '';
         var stream = null;
-        switch (res.headers['content-encoding']){
+        switch (res.headers['content-encoding']) {
             case 'gzip':
                 stream = res.pipe(zlib.createGunzip());
                 break;
@@ -63,7 +63,7 @@ exports.passportLogin = function (passport, callback) {
                 }
             }
             else {
-                callback('服务器无响应', null);
+                callback('游戏服务器无响应', null);
             }
         });
     });
@@ -78,10 +78,10 @@ exports.passportLogin = function (passport, callback) {
 exports.maze = {
     /**
      * 获取迷宫状态信息
-     * @param {String} host 游戏服务器地址
-     * @param {String} sid 游戏服务器用户_sid
-     * @param {String} mapStageId 迷宫所在的地图号
-     * @param {Function} callback Function(err,mazeInfo)
+     * @param {string} host 游戏服务器地址
+     * @param {string} sid 游戏服务器用户_sid
+     * @param {number} mapStageId 迷宫所在的地图号
+     * @param {function} callback function(err,mazeInfo)
      */
     show: function (host, sid, mapStageId, callback) {
         var server = {
@@ -99,7 +99,7 @@ exports.maze = {
         var req = http.request(server, function (res) {
             var data = '';
             var stream = null;
-            switch (res.headers['content-encoding']){
+            switch (res.headers['content-encoding']) {
                 case 'gzip':
                     stream = res.pipe(zlib.createGunzip());
                     break;
@@ -116,7 +116,7 @@ exports.maze = {
             stream.on('end', function () {
                 if (data) {
                     data = JSON.parse(data);
-                    if (data.status == '1') {
+                    if (data.status) {
                         //获取成功
                         callback(null, data.data);
                     }
@@ -126,7 +126,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('服务器无响应', null);
+                    callback('游戏服务器无响应', null);
                 }
             });
         });
@@ -136,10 +136,10 @@ exports.maze = {
 
     /**
      * 获取所有层信息
-     * @param {String} host 游戏服务器地址
-     * @param {String} sid 游戏服务器用户_sid
-     * @param {String} mapStageId 迷宫所在的地图号
-     * @param {Function} callback Function(err,mazeInfos)
+     * @param {string} host 游戏服务器地址
+     * @param {string} sid 游戏服务器用户_sid
+     * @param {number} mapStageId 迷宫所在的地图号
+     * @param {function} callback function(err,mazeInfos)
      */
     infos: function (host, sid, mapStageId, callback) {
         var layerCount = 0;
@@ -188,11 +188,11 @@ exports.maze = {
 
     /**
      * 获取某层信息
-     * @param {String} host 游戏服务器地址
-     * @param {String} sid 游戏服务器用户_sid
-     * @param {String} mapStageId 迷宫所在的地图号
-     * @param {String} layer 层号
-     * @param {Function} callback Function(err,mazeInfo)
+     * @param {string} host 游戏服务器地址
+     * @param {string} sid 游戏服务器用户_sid
+     * @param {number} mapStageId 迷宫所在的地图号
+     * @param {number} layer 层号
+     * @param {function} callback function(err,mazeInfo)
      */
     info: function (host, sid, mapStageId, layer, callback) {
         var server = {
@@ -211,7 +211,7 @@ exports.maze = {
         var req = http.request(server, function (res) {
             var data = '';
             var stream = null;
-            switch (res.headers['content-encoding']){
+            switch (res.headers['content-encoding']) {
                 case 'gzip':
                     stream = res.pipe(zlib.createGunzip());
                     break;
@@ -228,7 +228,7 @@ exports.maze = {
             stream.on('end', function () {
                 if (data) {
                     data = JSON.parse(data);
-                    if (data.status == '1') {
+                    if (data.status) {
                         //获取成功
                         callback(null, data.data);
                     }
@@ -238,7 +238,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('服务器无响应', null);
+                    callback('游戏服务器无响应', null);
                 }
             });
         });
@@ -248,13 +248,13 @@ exports.maze = {
 
     /**
      * 与迷宫一层中的某个index上的怪战斗
-     * @param {String} host  游戏服务器地址
-     * @param {String} sid 游戏服务器用户_sid
-     * @param {String} mapStageId 迷宫所在的地图号
-     * @param {String} layer 层号
-     * @param {String} itemIndex 怪的index
-     * @param {Boolean} manual 是否手动，0否，1是
-     * @param {Function} callback Function(err,battleResult)
+     * @param {string} host  游戏服务器地址
+     * @param {string} sid 游戏服务器用户_sid
+     * @param {number} mapStageId 迷宫所在的地图号
+     * @param {number} layer 层号
+     * @param {number} itemIndex 怪的index
+     * @param {boolean} manual 是否手动，0否，1是
+     * @param {function} callback function(err,battleResult)
      */
     battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback) {
         var server = {
@@ -275,7 +275,7 @@ exports.maze = {
         var req = http.request(server, function (res) {
             var data = '';
             var stream = null;
-            switch (res.headers['content-encoding']){
+            switch (res.headers['content-encoding']) {
                 case 'gzip':
                     stream = res.pipe(zlib.createGunzip());
                     break;
@@ -292,7 +292,7 @@ exports.maze = {
             stream.on('end', function () {
                 if (data) {
                     data = JSON.parse(data);
-                    if (data.status == '1') {
+                    if (data.status) {
                         //获取成功
                         data = data.data;
 
@@ -357,7 +357,64 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback('服务器无响应', null);
+                    callback('游戏服务器无响应', null);
+                }
+            });
+        });
+        req.write(reqContent);
+        req.end();
+    },
+
+    /**
+     * 重置迷宫
+     * @param {string} host
+     * @param {string} sid
+     * @param {number} mapStageId
+     * @param {function} callback
+     */
+    reset: function (host, sid, mapStageId, callback) {
+        var server = {
+            host: host,
+            path: services.maze.reset.path,
+            method: services.maze.reset.method,
+            headers: commons.headers()
+        };
+        var reqContent = services.maze.reset.params;
+        reqContent.MapStageId = mapStageId;
+        reqContent = querystring.stringify(reqContent);
+        server.headers['Cookie'] = '_sid=' + sid;
+        server.headers['Content-Length'] = reqContent.length;
+
+        var req = http.request(server, function (res) {
+            var data = '';
+            var stream = null;
+            switch (res.headers['content-encoding']) {
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
+            });
+            stream.on('end', function () {
+                if(data){
+                    if(data.status){
+                        //成功
+                        callback(null, '重置成功');
+                    }
+                    else{
+                        //失败
+                        callback(data, null);
+                    }
+                }
+                else{
+                    callback('游戏服务器无响应', null);
                 }
             });
         });
