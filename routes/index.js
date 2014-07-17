@@ -3,34 +3,35 @@ var maze = require('./maze');
 
 module.exports = function(app){
 
+    //登陆前
     //登录，成功后重定向至main
     app.all('/', function (req, res) {
-        res.redirect('index');
+        res.redirect('/index');
     });
     app.all('/index', function (req, res) {
         var remoteInfo = req.cookies['remoteInfo'];
         if (remoteInfo && remoteInfo.host && remoteInfo.sid) {
-            res.redirect('main');
+            res.redirect('/main');
         }
         else {
             res.render('index');
         }
     });
-    app.get('/login', function (req, res) {
-        res.redirect('index');
-    });
-    app.post('/login', login);
+    app.post('/login',login.login);
 
     //登录首页
-    app.all('*', function (req, res, next) {
+    app.use(function (req, res, next) {
         var remoteInfo = req.cookies['remoteInfo'];
         if (remoteInfo && remoteInfo.host && remoteInfo.sid) {
             next();
         }
         else {
-            res.redirect('index');
+            res.redirect('/index');
         }
     });
+
+    //登录后的判断
+    app.get('/logout',login.logout);
     //主界面
     app.get('/main', function(req, res){
         res.render('main');

@@ -264,3 +264,111 @@ exports.card = {
         method: 'GET'
     }
 };
+
+exports.user = {
+    getUserInfo: {
+        path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
+        method: 'POST'
+    },
+    params: {
+        'hallOpen': true
+    }
+    /*
+     {
+     "status": 1,
+     "data": {
+     "Uid": "45122",
+     "PwdLockMessage": "",
+     "Sex": "0",
+     "NickName": "\u5c0f\u4f19\u4f34\u2605L",
+     "Avatar": "186",
+     "Win": "1017",
+     "Lose": 992,
+     "Level": "83",
+     "Exp": 65855360,
+     "Coins": 5108049,
+     "Cash": 2042,
+     "Ticket": "3",
+     "FreshStep": {
+     "1": "21",
+     "2": "17",
+     "4": "13",
+     "3": "17",
+     "7": "7",
+     "8": "3",
+     "9": "9",
+     "5": "16",
+     "6": "5"
+     },
+     "Energy": 15,
+     "EnergyLastTime": 1402910233,
+     "EnergyBuyTime": "1402826550",
+     "EnergyBuyCount": 0,
+     "EnergyMax": 50,
+     "LeaderShip": "163",
+     "FriendApplyNum": "0",
+     "FriendNumMax": "52",
+     "DefaultGroupId": 27596,
+     "RankWin": "0",
+     "RankLost": "0",
+     "RankTimes": 12,
+     "ThievesTimes": "102",
+     "Fragment_5": "2",
+     "Fragment_4": "21",
+     "Fragment_3": "11",
+     "InviteCode": "44tmg4",
+     "InviteNum": "22",
+     "Udid": "1111111111111111111",
+     "LostPoint": "12",
+     "Origin": "WP8",
+     "Platform": "WP8",
+     "Language": "ZH_CN",
+     "Birthday": "0000-00-00",
+     "Idfa": "11111111111111",
+     "OnCard": "2014-07-06",
+     "BuyCount": "0",
+     "UserName": "wangliang0",
+     "NewFreshStep": [],
+     "HP": "13300",
+     "PrevExp": "62743300",
+     "NextExp": "66785700",
+     "MonthCardDay": 20,
+     "NewEmail": 0,
+     "NewGoods": 0,
+     "SalaryCount": 0,
+     "LoginContinueTimesXX": 16,
+     "Boss": 0,
+     "isMinor": -1,
+     "invite": true,
+     "gscode": false,
+     "appdriver": false,
+     "melee": false,
+     "legionfight": false,
+     "bindid": false,
+     "evolution_on": null,
+     "minor": false,
+     "DevoteActStatus": {
+     "maze": false
+     },
+     "JourneyActStatus": {
+     "isOpen": false,
+     "countDown": -1
+     },
+     "openMysticalMaze": 1,
+     "actStatus": {
+     "hall": false,
+     "autoClearMaze": true
+     },
+     "LevelToMonster": 30,
+     "evolution_wash_times": 10
+     },
+     "version": {
+     "http": "201302432",
+     "stop": "",
+     "appversion": "version_1",
+     "appurl": "ios:\/\/xxx",
+     "encrypt": 0
+     }
+     }
+     */
+}

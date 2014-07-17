@@ -14,9 +14,15 @@ block append scripts
             }
         });
 block content
-    div#navfirst
-    div#navsecond
+    //div#navfirst
+    //div#navsecond
     div#sidebar
+        div#userinfo
+            div#title
+                a#logout(href='/logout') 退出
+                h3#username username
+            div#infos
+                div#level
     div#maincontent
         div
             table#mazes
@@ -46,8 +52,7 @@ block content
                             button(onclick='mazeReset(#{ i });') 重置
                             button(onclick='mazeInfos(#{ i });') 详情
     div#console
-        h3#consoleTitle 控制台日志
+        div#consoleTitle
+            h3#consoleTitle 控制台日志
         div#consoleLog
-            dl#info
-                if info
-                    p #{info}
+            div#logContent

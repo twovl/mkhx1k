@@ -425,3 +425,12 @@ exports.maze = {
         req.end();
     }
 };
+
+/**
+ * 用户相关操作
+ */
+exports.user = {
+    getUserInfo:function(host, sid, hallOpen){
+
+    }
+};

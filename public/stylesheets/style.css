@@ -1,12 +1,20 @@
-body {
-    font: normal 100%;
-}
-
 h1 {
     font-family: "Microsoft YaHei";
     letter-spacing: 3px;
     font-weight: normal;
+    margin: 0;
 }
+h3 {
+    font-family: "simsong";
+    font-weight: normal;
+    margin: 0;
+}
+div#wrapper {margin:0;padding:0;}
+div#header {padding: 4px;background-color:#99bbbb;margin:0;}
+div#sidebar {float: left;background-color:#ffff99;height: 261px;}
+div#maincontent {float:left;background-color:#EEEEEE;}
+div#console {float:left;height:300px;width:100%;margin:0;}
+div#footer {clear: both;margin: 0;padding:2px 0 2px 0;width: 100%;text-align:center;background-color:#99bbbb}
 
 table {
     padding: 0;
@@ -24,7 +32,7 @@ th {
 }
 
 td {
-    background: #fff;
+    background: transparent;
     border: 1px solid cornflowerblue;
 }
 
@@ -42,28 +50,25 @@ button.sign{
     width: 154px;
     font-family: 'Microsoft YaHei';
 }
-
-div#console {
-    height: 300px;
-    width: 100%
+div#consoleTitle{
+    font-family: 'Microsoft YaHei';
+    background-color: #34495e;
+    margin: 0;
+    height: 10%;
+    color: #ffffff;
 }
-
 div#consoleLog {
-    padding: 0 0 0 10px;
+    margin:0;
+    padding: 0;
     color: #fff;
     font-family: "simsong";
     font-size: 0.8em;
-    overflow-y: auto;
-    height: 88%;
+    height: 90%;
     background-color: black;
-    margin-top: 0px;
+    overflow: auto;
 }
-h3#consoleTitle{
-    color: #fff;
-    background: #34495e;
-    height: 42px;
-    line-height: 42px;
-    padding: 0 0 0 10px;
-    font-weight: bold;
-    margin-bottom: 0px;
+div#logContent {
+    margin:0;
+    padding: 0;
 }
+

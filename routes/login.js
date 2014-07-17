@@ -1,6 +1,6 @@
 var mkhxServer = require('../mkhx-agent');
 
-module.exports = function (req,res){
+exports.login = function (req,res){
     var username = req.body['username'];
     var password = req.body['password'];
     mkhxServer.login(username, password, function (err, passport){
@@ -16,10 +16,15 @@ module.exports = function (req,res){
                     res.cookie('remoteInfo', {
                         'sid':userData.sid, 
                         'host':userData.host
-                        }, {maxAge: 3600000, httpOnly: true});
-                    res.redirect('main');
+                        }, {maxAge: 1000*60*60*24*30, httpOnly: true});
+                    res.redirect('/main');
                 };
             });
         }
     });
+};
+
+exports.logout = function (req,res){
+    res.clearCookie('remoteInfo');
+    res.redirect('/index');
 };
