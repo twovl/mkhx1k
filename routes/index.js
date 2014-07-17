@@ -1,5 +1,6 @@
-var login = require('./login');
-var maze = require('./maze');
+var login = require('./login.js');
+var maze = require('./maze.js');
+var user = require('./user.js');
 
 module.exports = function(app){
 
@@ -53,6 +54,9 @@ module.exports = function(app){
 
     //服务，重置迷宫
     app.put('/maze/reset/:mapStageId(\\d+)',maze.reset);
+
+    //服务，获取游戏角色信息
+    app.get('/user/info',user.info);
     //TODO
 
 };

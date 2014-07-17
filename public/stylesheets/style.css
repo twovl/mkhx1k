@@ -1,20 +1,25 @@
-h1 {
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+    margin: 0;
+    padding: 0;
+}
+h1.logo {
     font-family: "Microsoft YaHei";
     letter-spacing: 3px;
     font-weight: normal;
     margin: 0;
 }
-h3 {
-    font-family: "simsong";
-    font-weight: normal;
-    margin: 0;
-}
-div#wrapper {margin:0;padding:0;}
-div#header {padding: 4px;background-color:#99bbbb;margin:0;}
-div#sidebar {float: left;background-color:#ffff99;height: 261px;}
+a{text-decoration : none;color: #4c4ce0;}
+a:link    {color: #4c4ce0;}
+a:visited {color: #4c4cdf;}
+a:hover{text-decoration:underline;}
+a span{text-align: center;margin: 1px;display: inline-block}
+
+
+div#header {padding: 4px;background-color: #48525e;color: #ffffff}
+div#sidebar {float: left;background-color:#ffff99;}
 div#maincontent {float:left;background-color:#EEEEEE;}
-div#console {float:left;height:300px;width:100%;margin:0;}
-div#footer {clear: both;margin: 0;padding:2px 0 2px 0;width: 100%;text-align:center;background-color:#99bbbb}
+div#console {float:left;height:300px;width:100%;word-wrap:break-word;word-break:break-all;}
+div#footer {clear: both;padding:2px 0 2px 0;width: 100%;text-align:center;background-color: #48525e;color: #ffffff}
 
 table {
     padding: 0;
@@ -26,18 +31,15 @@ table {
 
 th {
     letter-spacing: 1px;
-    padding: 4px;
+    padding: 2px;
     background: #CAE8EA;
     border: 1px solid cornflowerblue;
 }
 
 td {
+    padding: 2px;
     background: transparent;
     border: 1px solid cornflowerblue;
-}
-
-button {
-    margin: 4px;
 }
 
 input.sign {
@@ -53,22 +55,15 @@ button.sign{
 div#consoleTitle{
     font-family: 'Microsoft YaHei';
     background-color: #34495e;
-    margin: 0;
     height: 10%;
     color: #ffffff;
 }
 div#consoleLog {
-    margin:0;
-    padding: 0;
     color: #fff;
     font-family: "simsong";
     font-size: 0.8em;
     height: 90%;
     background-color: black;
     overflow: auto;
-}
-div#logContent {
-    margin:0;
-    padding: 0;
 }
 
