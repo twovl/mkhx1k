@@ -39,7 +39,7 @@ exports.battle = function (req, res) {
     );
 };
 exports.reset = function (req, res) {
-    var mapStageId = req.mapStageId;
+    var mapStageId = req.params.mapStageId;
     var remoteInfo = req.cookies['remoteInfo'];
     mkhxServer.maze.reset(
         remoteInfo.host,

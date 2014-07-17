@@ -50,6 +50,7 @@ exports.passportLogin = function (passport, callback) {
                 if (data.status) {
                     //登录成功
                     var userData = {
+                        status: 1,
                         passport: passport,
                         pptRtnData: data.data,
                         host: server.host,
@@ -63,7 +64,7 @@ exports.passportLogin = function (passport, callback) {
                 }
             }
             else {
-                callback({'status':0,'message':'游戏服务器无响应'}, null);
+                callback({'status': 0, 'message': '游戏服务器无响应'}, null);
             }
         });
     });
@@ -118,6 +119,7 @@ exports.maze = {
                     data = JSON.parse(data);
                     if (data.status) {
                         //获取成功
+                        data.data.status = 1;
                         callback(null, data.data);
                     }
                     else {
@@ -126,7 +128,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback({'status':0,'message':'游戏服务器无响应'}, null);
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
                 }
             });
         });
@@ -166,7 +168,7 @@ exports.maze = {
                 layerCount = 5;
                 break;
             default:
-                callback({'status':0,'message':mapStageId + '图没有迷宫'}, null);
+                callback({'status': 0, 'message': mapStageId + '图没有迷宫'}, null);
                 return;
         }
         //存储所有的层信息
@@ -230,6 +232,7 @@ exports.maze = {
                     data = JSON.parse(data);
                     if (data.status) {
                         //获取成功
+                        data.data.status = 1;
                         callback(null, data.data);
                     }
                     else {
@@ -238,7 +241,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback({'status':0,'message':'游戏服务器无响应'}, null);
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
                 }
             });
         });
@@ -295,7 +298,7 @@ exports.maze = {
                     if (data.status) {
                         //获取成功
                         data = data.data;
-
+                        data.status = 1;
                         if (manual) {
                             //判断是否自动战斗
                             delete data["BattleId"];
@@ -356,7 +359,7 @@ exports.maze = {
                     }
                 }
                 else {
-                    callback({'status':0,'message':'游戏服务器无响应'}, null);
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
                 }
             });
         });
@@ -402,18 +405,19 @@ exports.maze = {
                 data += chunk;
             });
             stream.on('end', function () {
-                if(data){
-                    if(data.status){
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
                         //成功
-                        callback(null, '重置成功');
+                        callback(null, {'status': 1, 'message': '重置成功'});
                     }
-                    else{
+                    else {
                         //失败
                         callback(data, null);
                     }
                 }
-                else{
-                    callback({'status':0,'message':'游戏服务器无响应'}, null);
+                else {
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
                 }
             });
         });

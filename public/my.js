@@ -93,6 +93,7 @@ function syncMazeBattleAll(mapStageId){
     else {
         output.append('<li>--------------获取' + layer + '层信息错误，刷塔结束-------------</li>');
     }
+    mazeShow(mapStageId);
     $('#consoleLog').scrollTop(output.height());
 }
 function syncMazeBattleBox(mapStageId){
@@ -174,9 +175,37 @@ function syncMazeBattleBox(mapStageId){
     else {
         output.append('<li>--------------获取' + layer + '层信息错误，刷塔结束-------------</li>');
     }
+    mazeShow(mapStageId);
     $('#consoleLog').scrollTop(output.height());
 }
 function mazeShow(mapStageId) {
+    var output = $('dl#info');
+    output.append('加载' + mapStageId + '塔信息<br/>');
+    $.ajax({
+        async: true,
+        type: 'GET',
+        dataType: 'json',
+        url: '/maze/show/' + mapStageId,
+        success: function (data) {
+            if (data.status) {
+                $('#lblMazeName' + mapStageId).text(data.Name);
+                $('#lblMazeIsCleared' + mapStageId).text(data.Clear);
+                $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
+                $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
+                output.append('-->加载' + mapStageId + '塔信息成功<br/>');
+            }
+            else {
+                output.append('-->加载' + mapStageId + '塔信息失败：' + data.message + '<br/>');
+            }
+        },
+        error: function (xmlHttpReq, errMsg) {
+            errMsg = '-->加载' + mapStageId + '塔信息：服务器无响应' + (errMsg ? errMsg : '') + '<br/>';
+            var output = $('dl#info');
+            output.append(errMsg);
+            $('#consoleLog').scrollTop(output.height());
+        }
+    });
+
     $.get("/maze/show/" + mapStageId, function (data) {
         data = JSON.parse(data);
         $('#lblMazeName' + mapStageId).text(data.Name);
@@ -184,6 +213,7 @@ function mazeShow(mapStageId) {
         $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
         $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
     });
+    $('#consoleLog').scrollTop(output.height());
 }
 function syncMazeInfo(mapStageId, layer){
     var rtnData = null;
@@ -210,5 +240,29 @@ function mazeInfos(mapStageId) {
     });
 }
 function mazeReset(mapStageId){
-    //TODO
+    $('#lblMazeFreeReset' + mapStageId);
+    $.ajax({
+        async: true,
+        type: 'PUT',
+        dataType: 'json',
+        url: '/maze/reset/' + mapStageId,
+        success: function (data) {
+            var output = $('dl#info');
+            if (data.status) {
+                output.append('-->重置' + mapStageId + '塔成功<br/>');
+            }
+            else {
+                output.append('-->重置' + mapStageId + '塔失败：' + data.message + '<br/>');
+            }
+            output.append(data);
+            $('#consoleLog').scrollTop(output.height());
+            mazeShow(mapStageId);
+        },
+        error: function (xmlHttpReq, errMsg) {
+            errMsg = '-->重置' + mapStageId + '塔：服务器无响应：' + (errMsg ? errMsg : '') + '<br/>';
+            var output = $('dl#info');
+            output.append(errMsg);
+            $('#consoleLog').scrollTop(output.height());
+        }
+    });
 }

@@ -2,19 +2,35 @@ var login = require('./login');
 var maze = require('./maze');
 
 module.exports = function(app){
-    //登录首页
-    app.all('/', function(req, res){
-        res.redirect('index');
-    });
-    app.all('/index', function(req, res){
-        res.render('index');
-    });
-    app.get('/login',function(req, res){
-        res.redirect('index');
-    });
 
     //登录，成功后重定向至main
+    app.all('/', function (req, res) {
+        res.redirect('index');
+    });
+    app.all('/index', function (req, res) {
+        var remoteInfo = req.cookies['remoteInfo'];
+        if (remoteInfo && remoteInfo.host && remoteInfo.sid) {
+            res.redirect('main');
+        }
+        else {
+            res.render('index');
+        }
+    });
+    app.get('/login', function (req, res) {
+        res.redirect('index');
+    });
     app.post('/login', login);
+
+    //登录首页
+    app.all('*', function (req, res, next) {
+        var remoteInfo = req.cookies['remoteInfo'];
+        if (remoteInfo && remoteInfo.host && remoteInfo.sid) {
+            next();
+        }
+        else {
+            res.redirect('index');
+        }
+    });
     //主界面
     app.get('/main', function(req, res){
         res.render('main');
