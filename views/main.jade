@@ -12,17 +12,26 @@ block append scripts
             for(var i=2;i<9;i++){
                mazeShow(i);
             }
+            userInfo();
         });
 block content
     //div#navfirst
     //div#navsecond
     div#sidebar
+        a#logout(href='/logout')
+            span 退出
         div#userinfo
-            div#title
-                a#logout(href='/logout') 退出
-                h3#username username
-            div#infos
-                div#level
+            h2#username username
+            h3#nickname nickname
+            ul
+                li 等级:
+                    span#level level
+                li 金币:
+                    span#coins coins
+                li 晶钻:
+                    span#cash cash
+                li 体力:
+                    span#energy energy
     div#maincontent
         div
             table#mazes
@@ -46,11 +55,15 @@ block content
                         td
                             label(id = "lblMazeResetCash#{ i }") 0
                         td
-                            button(onclick='syncMazeBattleAll(#{ i });') 全刷
-                            button(onclick='syncMazeBattleBox(#{ i });') 宝箱
+                            a(href='javascript:syncMazeBattleAll(#{ i });')
+                                span 全刷
+                            a(href='javascript:syncMazeBattleBox(#{ i });')
+                                span 宝箱
                         td
-                            button(onclick='mazeReset(#{ i });') 重置
-                            button(onclick='mazeInfos(#{ i });') 详情
+                            a(href='javascript:mazeReset(#{ i });')
+                                span 重置
+                            a(href='javascript:mazeInfos(#{ i });')
+                                span 详情
     div#console
         div#consoleTitle
             h3#consoleTitle 控制台日志

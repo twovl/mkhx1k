@@ -268,11 +268,12 @@ exports.card = {
 exports.user = {
     getUserInfo: {
         path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
-        method: 'POST'
-    },
-    params: {
-        'hallOpen': true
+        method: 'POST',
+        params: {
+            'hallOpen': true
+        }
     }
+
     /*
      {
      "status": 1,
@@ -327,7 +328,7 @@ exports.user = {
      "Idfa": "11111111111111",
      "OnCard": "2014-07-06",
      "BuyCount": "0",
-     "UserName": "wangliang0",
+     "UserName": "0000",
      "NewFreshStep": [],
      "HP": "13300",
      "PrevExp": "62743300",

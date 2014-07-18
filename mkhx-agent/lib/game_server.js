@@ -430,7 +430,56 @@ exports.maze = {
  * 用户相关操作
  */
 exports.user = {
-    getUserInfo:function(host, sid, hallOpen){
+    info:function(host, sid, hallOpen, callback){
+        var server = {
+            host: host,
+            path: services.user.getUserInfo.path,
+            method: services.user.getUserInfo.method,
+            headers: commons.headers()
+        };
+        var reqContent = services.user.getUserInfo.params;
+        reqContent['hallOpen'] = hallOpen;
+        reqContent = querystring.stringify(reqContent);
+        server.headers['Cookie'] = '_sid=' + sid;
+        server.headers['Content-Length'] = reqContent.length;
 
+        var req = http.request(server, function (res) {
+            var data = '';
+            var stream = null;
+            switch (res.headers['content-encoding']) {
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
+            });
+            stream.on('end', function () {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        //成功
+                        data = data.data;
+                        data.status = 1;
+                        callback(null, data);
+                    }
+                    else {
+                        //失败
+                        callback(data, null);
+                    }
+                }
+                else {
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
+                }
+            });
+        });
+        req.write(reqContent);
+        req.end();
     }
 };
