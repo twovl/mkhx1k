@@ -2,20 +2,27 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fiel
     margin: 0;
     padding: 0;
 }
-h1.logo {
-    font-family: "Microsoft YaHei";
-    letter-spacing: 3px;
-    font-weight: normal;
-    margin: 0;
+.clear {clear:both;}
+
+a:link,a:visited
+{
+    display:inline-block;
+    color:#FFFFFF;
+    background-color:#98bf21;
+    text-align:center;
+    padding:1px;
+    margin: 2px;
+    text-decoration:none;
 }
-a{text-decoration : none;color: #4c4ce0;}
-a:link    {color: #4c4ce0;}
-a:visited {color: #4c4cdf;}
-a:hover{text-decoration:underline;}
-a span{text-align: center;margin: 1px;display: inline-block}
+a:hover,a:active
+{
+    background-color:#7A991A;
+}
 
 
-div#header {padding: 4px;background-color: #48525e;color: #ffffff}
+div#header {background-color: #48525e;color: #ffffff;height: 44px;}
+div#header a{float: right;line-height: 44px;margin: 0;padding: 0 2px 0 2px;}
+div#header h1{font-family: "Microsoft YaHei";letter-spacing: 3px;font-weight: normal;;float:left}
 div#sidebar {float: left;background-color:#ffff99;}
 div#maincontent {float:left;background-color:#EEEEEE;}
 div#console {float:left;height:300px;width:100%;word-wrap:break-word;word-break:break-all;}

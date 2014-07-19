@@ -4,10 +4,10 @@ block append scripts
     script.
         $(document).ready(function(){ 
             $(document).ajaxSend(function(){
-                $('button').attr('disabled',true);
+                $('a').click(function(){ return false; });
                 });
             $(document).ajaxComplete(function(){
-                $('button').attr('disabled',false);
+                $('a').unbind();
                 });
             for(var i=2;i<9;i++){
                mazeShow(i);
@@ -18,8 +18,6 @@ block content
     //div#navfirst
     //div#navsecond
     div#sidebar
-        a#logout(href='/logout')
-            span 退出
         div#userinfo
             h2#username username
             h3#nickname nickname
@@ -55,15 +53,11 @@ block content
                         td
                             label(id = "lblMazeResetCash#{ i }") 0
                         td
-                            a(href='javascript:syncMazeBattleAll(#{ i });')
-                                span 全刷
-                            a(href='javascript:syncMazeBattleBox(#{ i });')
-                                span 宝箱
+                            a(href='javascript:syncMazeBattleAll(#{ i });') 全刷
+                            a(href='javascript:syncMazeBattleBox(#{ i });') 宝箱
                         td
-                            a(href='javascript:mazeReset(#{ i });')
-                                span 重置
-                            a(href='javascript:mazeInfos(#{ i });')
-                                span 详情
+                            a(href='javascript:mazeReset(#{ i });') 重置
+                            a(href='javascript:mazeInfos(#{ i });') 详情
     div#console
         div#consoleTitle
             h3#consoleTitle 控制台日志
