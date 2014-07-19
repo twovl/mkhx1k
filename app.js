@@ -2,6 +2,7 @@
  * Module dependencies.
  */
 var express = require('express');
+var compression = require('compression');
 var favicon = require('serve-favicon');
 var morgan  = require('morgan');
 var bodyParser = require('body-parser');
@@ -20,9 +21,11 @@ var app = express();
 app.set('port', process.env.PORT || 1337);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+app.use(compression({threshold: 0}));
 app.use(favicon(__dirname + '/public/favicon.png'));
-app.use(morgan());
-app.use(bodyParser());
+app.use(morgan('short'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(methodOverride());
 app.use(cookieParser('mkhx1k 185'));
@@ -35,4 +38,7 @@ if ('development' == app.get('env')) {
 routes(app);
 http.createServer(app).listen(app.get('port'),  function(){
     console.log('Express server listening on port ' + app.get('port'));
+});
+process.on('uncaughtException', function(err) {
+    console.log('Caught exception: ' + err);
 });

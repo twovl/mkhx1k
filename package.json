@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "4.3.2",
     "jade": "*",
+    "compression": "1.0.8",
     "serve-favicon":"2.0.0",
     "morgan": "1.1.1",
     "body-parser": "1.2.2",

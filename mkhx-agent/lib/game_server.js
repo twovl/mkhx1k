@@ -312,38 +312,26 @@ exports.maze = {
                                 var secondDrop = data['ExtData']['Award']['SecondDropCard'];
                                 var secondId = 0;
                                 //翻译战斗获得卡牌
-                                data['ExtData']['Award']['CardId'] = {
-                                    'CardId': cardId,
-                                    'CardName': allcards[cardId]['CardName']
-                                };
+                                data['ExtData']['Award']['CardName'] = allcards[cardId]['CardName'];
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     for (var i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardId'] = {
-                                            'CardId': secondId,
-                                            'CardName': allcards[secondId]['CardName']
-                                        };
+                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
                                     }
                                 }
-                                //TODO 是否获得碎片 data["CardChip"] = [{"ChipId":"503","Num":1}]
+                                //TODO 是否获得碎片 data['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
 
                                 //翻译通关获得卡牌
                                 cardId = data['ExtData']['Clear']['CardId'];
                                 secondDrop = data['ExtData']['Clear']['SecondDropCard'];
-                                data['ExtData']['Clear']['CardId'] = {
-                                    'CardId': cardId,
-                                    'CardName': allcards[cardId]['CardName']
-                                };
+                                data['ExtData']['Clear']['CardName'] = allcards[cardId]['CardName'];
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     secondId = 0;
                                     for (var i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardId'] = {
-                                            'CardId': secondId,
-                                            'CardName': allcards[secondId]['CardName']
-                                        };
+                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
                                     }
                                 }
                             }

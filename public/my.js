@@ -1,4 +1,4 @@
-function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
+﻿function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
     var rtnData = null;
     $.ajax({
         async: false,
@@ -17,7 +17,59 @@ function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
     });
     return rtnData;
 }
+function decodeBattleResult(br){
+    var rt = {};
+    if(br){
+        if(br.status){
+            rt.status = 1;
+            var award = br['ExtData']['Award'];
+            var clear = br['ExtData']['Clear'];
+            var cardChip =  br['ExtData']['CardChip'];
+            rt.message =
+                '金币×'+award['Coins']+' '+
+                '经验×'+award['Exp'];
+            if(br['Win']===1){
+                rt.win = 1;
+                if(award['CardId']){
+                    rt.message=rt.message+' '+award['CardName'];
+                }
+                if(award['SecondDropCard']){
+                    award['SecondDropCard'].forEach(function(card){
+                        rt.message=rt.message+' '+card['CardName'];
+                    });
+                }
+                if(clear['IsClear']){
+                    rt.message=rt.message+ '<br/>'+
+                        '通关奖励：'+ '金币×'+clear['Coins']+' '+
+                        clear['CardName'];
+                    if(clear['SecondDropCard']){
+                        clear['SecondDropCard'].forEach(function(card){
+                            rt.message=rt.message+' '+card['CardName'];
+                        });
+                    }
+                }
+                if(cardChip){
+                    rt.message+=' 获得碎片：';
+                    cardChip.forEach(function(chip){
+                        rt.message = rt.message+' '+chip['ChipId']+'×'+chip['Num'];
+                    });
+                }
+            }
+        }
+        else {
+            rt.status = 0;
+            rt.message = br.message;
+        }
+        return rt;
+    }
+    else {
+        return null;
+    }
+}
 function syncMazeBattleAll(mapStageId) {
+    if($('#lblMazeIsCleared'+mapStageId).text()=='1'){
+        return alert(mapStageId+'塔已经通关！');
+    }
     var output = $('div#logContent');
     output.append('<h3 style="color:green;">--------------开始全刷' + mapStageId + '塔-------------</h3>');
     var layer = 1;
@@ -45,9 +97,21 @@ function syncMazeBattleAll(mapStageId) {
                 }
                 if (battleResult) {
                     //输出战斗结果
-                    output.append('<li>' + JSON.stringify(battleResult) + '</li>');
-                    if (battleResult['Win'] != 1) {
-                        output.append('<li>战斗失败，刷塔结束。</li>');
+                    battleResult = decodeBattleResult(battleResult);
+                    if(battleResult.status){
+                        if(battleResult.win){
+                            output.append('<li>战斗胜利：' + battleResult.message + '</li>');
+                        }
+                        else{
+                            output.append('<li>战斗失败：' + battleResult.message + '</li>');
+                            $('#consoleLog').scrollTop(output.height());
+                            mazeShow(mapStageId);
+                            userInfo();
+                            return;
+                        }
+                    }
+                    else{
+                        output.append('<li>战斗中止：' + battleResult.message + '</li>');
                         $('#consoleLog').scrollTop(output.height());
                         mazeShow(mapStageId);
                         userInfo();
@@ -78,9 +142,21 @@ function syncMazeBattleAll(mapStageId) {
                             }
                             if (battleResult) {
                                 //输出战斗结果
-                                output.append('<li>' + JSON.stringify(battleResult) + '</li>');
-                                if (battleResult['Win'] != 1) {
-                                    output.append('<li>战斗失败，刷塔结束。</li>');
+                                battleResult = decodeBattleResult(battleResult);
+                                if(battleResult.status){
+                                    if(battleResult.win){
+                                        output.append('<li>战斗胜利：' + battleResult.message + '</li>');
+                                    }
+                                    else{
+                                        output.append('<li>战斗失败：' + battleResult.message + '</li>');
+                                        $('#consoleLog').scrollTop(output.height());
+                                        mazeShow(mapStageId);
+                                        userInfo();
+                                        return;
+                                    }
+                                }
+                                else{
+                                    output.append('<li>战斗中止：' + battleResult.message + '</li>');
                                     $('#consoleLog').scrollTop(output.height());
                                     mazeShow(mapStageId);
                                     userInfo();
@@ -117,6 +193,9 @@ function syncMazeBattleAll(mapStageId) {
     $('#consoleLog').scrollTop(output.height());
 }
 function syncMazeBattleBox(mapStageId) {
+    if($('#lblMazeIsCleared'+mapStageId).text()=='1'){
+        return alert(mapStageId+'塔已经通关！');
+    }
     var output = $('div#logContent');
     output.append('<h3 style="color:green;">--------------开始全刷' + mapStageId + '塔箱子-------------</h3>');
     var layer = 1;
@@ -145,9 +224,21 @@ function syncMazeBattleBox(mapStageId) {
                 }
                 if (battleResult) {
                     //输出战斗结果
-                    output.append('<li>' + JSON.stringify(battleResult) + '</li>');
-                    if (battleResult['Win'] != 1) {
-                        output.append('<li>战斗失败，刷塔结束。</li>');
+                    battleResult = decodeBattleResult(battleResult);
+                    if(battleResult.status){
+                        if(battleResult.win){
+                            output.append('<li>战斗胜利：' + battleResult.message + '</li>');
+                        }
+                        else{
+                            output.append('<li>战斗失败：' + battleResult.message + '</li>');
+                            $('#consoleLog').scrollTop(output.height());
+                            mazeShow(mapStageId);
+                            userInfo();
+                            return;
+                        }
+                    }
+                    else{
+                        output.append('<li>战斗中止：' + battleResult.message + '</li>');
                         $('#consoleLog').scrollTop(output.height());
                         mazeShow(mapStageId);
                         userInfo();
@@ -179,9 +270,21 @@ function syncMazeBattleBox(mapStageId) {
                             }
                             if (battleResult) {
                                 //输出战斗结果
-                                output.append('<li>' + JSON.stringify(battleResult) + '</li>');
-                                if (battleResult['Win'] != 1) {
-                                    output.append('<li>战斗失败，刷塔结束。</li>');
+                                battleResult = decodeBattleResult(battleResult);
+                                if(battleResult.status){
+                                    if(battleResult.win){
+                                        output.append('<li>战斗胜利：' + battleResult.message + '</li>');
+                                    }
+                                    else{
+                                        output.append('<li>战斗失败：' + battleResult.message + '</li>');
+                                        $('#consoleLog').scrollTop(output.height());
+                                        mazeShow(mapStageId);
+                                        userInfo();
+                                        return;
+                                    }
+                                }
+                                else{
+                                    output.append('<li>战斗中止：' + battleResult.message + '</li>');
                                     $('#consoleLog').scrollTop(output.height());
                                     mazeShow(mapStageId);
                                     userInfo();
@@ -294,7 +397,7 @@ function mazeInfos(mapStageId) {
     });
 }
 function mazeReset(mapStageId) {
-    if ($('#lblMazeFreeReset' + mapStageId).text() === '0') {
+    if ($('#lblMazeFreeReset' + mapStageId).text() == '0') {
         if (!window.confirm('没有免费重置次数，你确定要花钻重置？')) {
             return;
         }
