@@ -24,6 +24,7 @@ app.set('view engine', 'jade');
 app.use(compression({threshold: 0}));
 app.use(favicon(__dirname + '/public/favicon.png'));
 app.use(morgan());
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
