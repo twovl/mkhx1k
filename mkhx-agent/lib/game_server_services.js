@@ -372,4 +372,29 @@ exports.user = {
      }
      }
      */
-}
+};
+
+exports.legion = {
+    getUserLegion : {
+        path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
+        method: 'GET'
+    }
+    /*
+    {
+        "status": 1,
+        "data": {
+            "LegionId": "2",
+            "LegionName": "\u6211\u548c\u6211\u7684\u5c0f\u4f19\u4f34",
+            "StrengExpAdd": 20,
+            "Duty": 3
+        },
+        "version": {
+            "http": "201302445",
+            "stop": "",
+            "appversion": "version_1",
+            "appurl": "ios:\/\/xxx",
+            "encrypt": 0
+        }
+    }
+    */
+};
