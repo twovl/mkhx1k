@@ -297,25 +297,25 @@ exports.maze = {
                     data = JSON.parse(data);
                     if (data.status) {
                         //获取成功
-                        data = data.data;
-                        data.status = 1;
+                        var result = data.data;
+                        result.status = 1;
                         if (manual) {
                             //判断是否自动战斗
-                            delete data["BattleId"];
-                            delete data["prepare"];
-                            delete data["AttackPlayer"];
-                            delete data["DefendPlayer"];
-                            delete data["Battle"];
-                            if (data['Win'] == 1) {
+                            delete result["BattleId"];
+                            delete result["prepare"];
+                            delete result["AttackPlayer"];
+                            delete result["DefendPlayer"];
+                            delete result["Battle"];
+                            if (result['Win'] == 1) {
                                 //是否胜利
-                                var cardId = data['ExtData']['Award']['CardId'];
-                                var secondDrop = data['ExtData']['Award']['SecondDropCard'];
+                                var cardId = result['ExtData']['Award']['CardId'];
+                                var secondDrop = result['ExtData']['Award']['SecondDropCard'];
                                 var secondId = 0;
                                 //翻译战斗获得卡牌
-                                data['ExtData']['Award']['CardName'] = allcards[cardId]['CardName'];
+                                result['ExtData']['Award']['CardName'] = allcards[cardId]['CardName'];
                                 if (secondDrop) {
                                     //是否获得其它掉落
-                                    for (var i = 0; i < secondDrop.length; i++) {
+                                    for (i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
                                         secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
                                     }
@@ -323,9 +323,9 @@ exports.maze = {
                                 //TODO 是否获得碎片 data['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
 
                                 //翻译通关获得卡牌
-                                cardId = data['ExtData']['Clear']['CardId'];
-                                secondDrop = data['ExtData']['Clear']['SecondDropCard'];
-                                data['ExtData']['Clear']['CardName'] = allcards[cardId]['CardName'];
+                                cardId = result['ExtData']['Clear']['CardId'];
+                                secondDrop = result['ExtData']['Clear']['SecondDropCard'];
+                                result['ExtData']['Clear']['CardName'] = allcards[cardId]['CardName'];
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     secondId = 0;
@@ -339,7 +339,7 @@ exports.maze = {
                         else {
                             //TODO 非自动战斗回复
                         }
-                        callback(null, data);
+                        callback(null, result);
                     }
                     else {
                         //获取失败
@@ -453,9 +453,8 @@ exports.user = {
                     data = JSON.parse(data);
                     if (data.status) {
                         //成功
-                        data = data.data;
-                        data.status = 1;
-                        callback(null, data);
+                        data.data.status = 1;
+                        callback(null, data.data);
                     }
                     else {
                         //失败
@@ -468,6 +467,61 @@ exports.user = {
             });
         });
         req.write(reqContent);
+        req.end();
+    }
+};
+
+exports.legion = {
+    /**
+     *
+     * @param host
+     * @param sid
+     * @param callback
+     */
+    current:function(host, sid, callback){
+        var server = {
+            host: host,
+            path: services.legion.getUserLegion.path,
+            method: services.legion.getUserLegion.method,
+            headers: commons.headers()
+        };
+        server.headers['Cookie'] = '_sid=' + sid;
+
+        var req = http.request(server, function (res) {
+            var data = '';
+            var stream = null;
+            switch (res.headers['content-encoding']) {
+                case 'gzip':
+                    stream = res.pipe(zlib.createGunzip());
+                    break;
+                case 'deflate':
+                    stream = res.pipe(zlib.createInflate());
+                    break;
+                default :
+                    stream = res;
+            }
+            stream.setEncoding('utf8');
+            stream.on('data', function (chunk) {
+                data += chunk;
+            });
+            stream.on('end', function () {
+                if (data) {
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        //成功
+                        data.data.status = 1;
+                        callback(null, data.data);
+                    }
+                    else {
+                        //失败
+                        callback(data, null);
+                    }
+                }
+                else {
+                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
+                }
+            });
+        });
         req.end();
     }
 };

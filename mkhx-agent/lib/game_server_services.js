@@ -376,7 +376,7 @@ exports.user = {
 
 exports.legion = {
     getUserLegion : {
-        path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
+        path: '/legion.php?do=GetUserLegion&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.0&pvb=2014-06-19+14%3a08%3a00',
         method: 'GET'
     }
     /*

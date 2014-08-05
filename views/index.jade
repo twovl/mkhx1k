@@ -7,7 +7,7 @@ html
     body
         div#header
             h1.logo 魔卡幻想一键
-        div#content
+        div#maincontent
             form(action="/login" method="post")
                 div
                     input.sign(required type='text', name='username', placeholder='用户名')
@@ -15,5 +15,5 @@ html
                     input.sign(required type='password', name='password', placeholder='密码')
                 div
                     button.sign(type='submit') 登录
-        div  #{info}
+        div#info  #{info}
         div#footer 本工具系小伙伴★L个人娱乐作品，只供小伙伴内部交流使用，如有问题，你来打我啊。

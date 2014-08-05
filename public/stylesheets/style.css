@@ -27,6 +27,7 @@ div#sidebar {float: left;background-color:#ffff99;}
 div#maincontent {float:left;background-color:#EEEEEE;}
 div#console {float:left;height:300px;width:100%;word-wrap:break-word;word-break:break-all;}
 div#footer {clear: both;padding:2px 0 2px 0;width: 100%;text-align:center;background-color: #48525e;color: #ffffff}
+div#info {float:left;background-color: rgba(255, 0, 0, 0.55);}
 
 table {
     padding: 0;
