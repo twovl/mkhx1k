@@ -1,5 +1,6 @@
 var mkhxServer = require('../mkhx-agent');
 var ulist = require('./user_white_black_list.json');
+var llist = require('./legion_white_black_list.json')
 
 exports.login = function (req,res){
     var username = req.body['username'];
@@ -19,9 +20,9 @@ exports.login = function (req,res){
                     res.render('index',{info: err['message']});
                     return;
                 }
-                //判断是否小伙伴
-                if((legionInfo['LegionId']==='2'&&legionInfo['LegionName']==='\u6211\u548c\u6211\u7684\u5c0f\u4f19\u4f34')
-                    ||//判断黑白名单列表
+                //判断军团黑白名单列表
+                if(llist[legionInfo['LegionName']]
+                    ||//判断用户名黑白名单列表
                     ulist[username]){
                     res.cookie('remoteInfo', {
                         'sid':userData.sid,
