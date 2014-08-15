@@ -51,7 +51,7 @@ function decodeBattleResult(br){
                 if(cardChip){
                     rt.message+=' 获得碎片：';
                     cardChip.forEach(function(chip){
-                        rt.message = rt.message+' '+chip['ChipId']+'×'+chip['Num'];
+                        rt.message = rt.message+chip['CardName']+'×'+chip['Num'];
                     });
                 }
             }

@@ -311,16 +311,25 @@ exports.maze = {
                                 var cardId = result['ExtData']['Award']['CardId'];
                                 var secondDrop = result['ExtData']['Award']['SecondDropCard'];
                                 var secondId = 0;
+                                var cardchip = result['ExtData']['CardChip'];
+                                var cardchipid = 0;
+
                                 //翻译战斗获得卡牌
                                 result['ExtData']['Award']['CardName'] = allcards[cardId]['CardName'];
+                                //是否获得碎片ndata['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
+                                if(cardchip){
+                                    cardchip.forEach(function(chip){
+                                        cardchipid = chip["ChipId"];
+                                        chip["CardName"] = allcards[cardchipid]['CardName'];
+                                    });
+                                }
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     for (i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
+                                        secondDrop[i][''] = allcards[secondId]['CardName'];CardName
                                     }
                                 }
-                                //TODO 是否获得碎片 data['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
 
                                 //翻译通关获得卡牌
                                 cardId = result['ExtData']['Clear']['CardId'];
