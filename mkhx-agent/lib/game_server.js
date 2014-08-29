@@ -327,7 +327,7 @@ exports.maze = {
                                     //是否获得其它掉落
                                     for (i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i][''] = allcards[secondId]['CardName'];CardName
+                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
                                     }
                                 }
 
