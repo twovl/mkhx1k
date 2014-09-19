@@ -435,7 +435,7 @@ function userInfo(){
         success: function (data) {
             var output = $('div#logContent');
             if (data.status) {
-                $('#username').text(data['UserName']);
+                //$('#username').text(data['UserName']);
                 $('#nickname').text(data['NickName']);
                 $('#level').text(data['Level']);
                 $('#coins').text(data['Coins']);
