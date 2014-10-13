@@ -67,7 +67,7 @@ function decodeBattleResult(br){
     }
 }
 function syncMazeBattleAll(mapStageId) {
-    if($('#lblMazeIsCleared'+mapStageId).text()=='1'){
+    if($('#lblMazeIsClear'+mapStageId).text()=='1'){
         return alert(mapStageId+'塔已经通关！');
     }
     var output = $('div#logContent');
@@ -193,7 +193,7 @@ function syncMazeBattleAll(mapStageId) {
     $('#consoleLog').scrollTop(output.height());
 }
 function syncMazeBattleBox(mapStageId) {
-    if($('#lblMazeIsCleared'+mapStageId).text()=='1'){
+    if($('#lblMazeIsClear'+mapStageId).text()=='1'){
         return alert(mapStageId+'塔已经通关！');
     }
     var output = $('div#logContent');
@@ -333,7 +333,7 @@ function mazeShow(mapStageId) {
         success: function (data) {
             if (data.status) {
                 $('#lblMazeName' + mapStageId).text(data.Name);
-                $('#lblMazeIsCleared' + mapStageId).text(data.Clear);
+                $('#lblMazeIsClear' + mapStageId).text(data.Clear);
                 $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
                 $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
                 //output.append('-->加载' + mapStageId + '塔信息成功<br/>');
@@ -354,7 +354,7 @@ function mazeShow(mapStageId) {
     $.get("/maze/show/" + mapStageId, function (data) {
         data = JSON.parse(data);
         $('#lblMazeName' + mapStageId).text(data.Name);
-        $('#lblMazeIsCleared' + mapStageId).text(data.Clear);
+        $('#lblMazeIsClear' + mapStageId).text(data.Clear);
         $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
         $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
     });

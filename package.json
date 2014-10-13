@@ -1,16 +1,17 @@
 {
   "name": "mkhx1k",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "mkh1k",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "dependencies": {
     "express": "4.3.2",
     "jade": "*",
     "compression": "1.0.8",
-    "serve-favicon":"2.0.0",
+    "serve-favicon": "2.0.0",
     "morgan": "1.1.1",
     "body-parser": "1.2.2",
     "method-override": "1.0.2",
@@ -35,5 +36,6 @@
   "license": "BSD",
   "gitHead": "a4c182a5121aa047e62f13be1135e6fb309dae4f",
   "devDependencies": {},
-  "optionalDependencies": {}
+  "optionalDependencies": {},
+  "subdomain": "mkhx1k"
 }

@@ -20,14 +20,15 @@ module.exports = function(app){
     });
     app.post('/login',login.login);
 
-    //登录首页
+    //判断是否登陆，如果没登陆，不返回任何数据
     app.use(function (req, res, next) {
         var remoteInfo = req.cookies['remoteInfo'];
         if (remoteInfo && remoteInfo.host && remoteInfo.sid) {
             next();
         }
         else {
-            res.redirect('/index');
+            //res.redirect('/index');
+            //res.send(404,'Holly Shit, we cannot find that!');
         }
     });
 
