@@ -1,4 +1,4 @@
-extends layout
+﻿extends layout
 block append scripts
     script(src='/my.js')
     script.
@@ -20,16 +20,25 @@ block content
     div#sidebar
         div#userinfo
             //h2#username username
-            h3#nickname nickname
+            //h3#nickname nickname
             ul
-                li 等级:
+                li
+                    h3#nickname nickname
+                li LV:
                     span#level level
-                li 金币:
+                li 金:
                     span#coins coins
-                li 晶钻:
+                li 钻:
                     span#cash cash
-                li 体力:
+                li 体:
                     span#energy energy
+    //div#actions
+    //    ul
+    //        li 地图保卫
+    //        li 扫荡地下城
+    //        li 自动地下城
+    //        li 收/回体力
+    //        li 一键团战
     div#maincontent
         div
             table#mazes

@@ -28,7 +28,7 @@ module.exports = function(app){
         }
         else {
             //res.redirect('/index');
-            //res.send(404,'Holly Shit, we cannot find that!');
+            res.send(404,'Holly Shit, we cannot find that!');
         }
     });
 
