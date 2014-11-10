@@ -427,3 +427,93 @@ exports.legion = {
     }
     */
 };
+
+exports.mapstage = {
+    getUserMapStages : {
+        path: '/mapstage.php?do=GetUserMapStages&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'GET'
+        /*
+         "data": {
+         "1": {
+         "Uid": "45122",
+         "MapStageDetailId": "1",
+         "Type": "1",
+         "MapStageId": "1",
+         "FinishedStage": "3",
+         "LastFinishedTime": "2013-08-18 17:45:20",
+         "CounterAttackTime": "0"
+         },
+         "2": {
+         "Uid": "45122",
+         "MapStageDetailId": "2",
+         "Type": "1",
+         "MapStageId": "1",
+         "FinishedStage": "3",
+         "LastFinishedTime": "2013-08-18 17:47:31",
+         "CounterAttackTime": "0"
+         },
+         。。。。CounterAttackTime不为0，则表示该关卡被入侵
+         */
+    },
+    //打地图入侵怪
+    editUserMapStages : {
+        path: '/mapstage.php?do=EditUserMapStages&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'POST',
+        params:{
+            'MapStageDetailId':1,
+            'isManual':0
+        }
+        /*
+         "data": {
+         "BattleId": "131902ade0a9c6b97cbee5528c1329955460670690f34",
+         "Win": 1,
+         "ExtData": {
+         "StarUp": 0,
+         "Bonus": ["Exp_1550", "Coins_1760"],
+         "UserLevel": "90",
+         "Exp": 97648120,
+         "PrevExp": "96640700",
+         "NextExp": "102699000"
+         },
+         "prepare": null,
+         "AttackPlayer":{},
+         。。。。。。
+         */
+    },
+    //探索
+    explore : {
+        path: '/mapstage.php?do=Explore&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'POST',
+        params: {
+            'MapStageDetailId': 1
+        }
+        /*
+         "data": {
+             "Bonus": ["Exp_2270", "Coins_2590"],
+             "UserLevel": "90",
+             "Exp": 97653710,
+             "PrevExp": "96640700",
+             "NextExp": "102699000",
+             //如果有这个，代表有贼出现
+             "ThievesInfo": {
+                 "Uid": 34759,
+                 "NickName": "\u5c0f\u4f19\u4f34\u00d6\u6b66\u5219\u5929",
+                 "Avatar": 213,
+                 "Sex": "1",
+                 "ThievesId": 15,
+                 "Time": 1415604526,
+                 "Status": 0,
+                 "Attackers": [],
+                 "Awards": [],
+                 "HPCount": 4340,
+                 "HPCurrent": 4340,
+                 "Type": 1,
+                 "UserThievesId": 3136391,
+                 "Round": 0,
+                 "FleeTime": 7200
+             },
+             "Countdown": -1415604526
+         }
+         */
+    }
+};

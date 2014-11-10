@@ -6,7 +6,7 @@ var async = require('async');
 var commons = require('./commons.js');
 var services = require('./game_server_services.js');
 var allcards = require('./allcards.js');
-
+var tools = require('./tools.js');
 /**
  * 登录游戏服务器
  * @param {JSON} passport
@@ -97,47 +97,11 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //获取成功
-                        data.data.status = 1;
-                        callback(null, data.data);
-                    }
-                    else {
-                        //获取失败
-                        callback(data, null);
-                    }
-                }
-                else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
-                }
-            });
-        });
-        req.write(reqContent);
-        req.end();
+        tools.http.post(server,reqContent,callback);
     },
 
     /**
-     * 获取所有层信息
+     * 自定义方法，获取所有层信息
      * @param {string} host 游戏服务器地址
      * @param {string} sid 游戏服务器用户_sid
      * @param {number} mapStageId 迷宫所在的地图号
@@ -210,43 +174,7 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //获取成功
-                        data.data.status = 1;
-                        callback(null, data.data);
-                    }
-                    else {
-                        //获取失败
-                        callback(data, null);
-                    }
-                }
-                else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
-                }
-            });
-        });
-        req.write(reqContent);
-        req.end();
+        tools.http.post(server,reqContent,callback);
     },
 
     /**
@@ -384,42 +312,7 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //成功
-                        callback(null, {'status': 1, 'message': '重置成功'});
-                    }
-                    else {
-                        //失败
-                        callback(data, null);
-                    }
-                }
-                else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
-                }
-            });
-        });
-        req.write(reqContent);
-        req.end();
+        tools.http.post(server,reqContent,callback);
     }
 };
 
@@ -440,43 +333,7 @@ exports.user = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //成功
-                        data.data.status = 1;
-                        callback(null, data.data);
-                    }
-                    else {
-                        //失败
-                        callback(data, null);
-                    }
-                }
-                else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
-                }
-            });
-        });
-        req.write(reqContent);
-        req.end();
+        tools.http.post(server,reqContent,callback);
     }
 };
 
@@ -495,42 +352,32 @@ exports.legion = {
             headers: commons.headers()
         };
         server.headers['Cookie'] = '_sid=' + sid;
+        tools.http.get(server,callback);
+    }
+};
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //成功
-                        data.data.status = 1;
-                        callback(null, data.data);
-                    }
-                    else {
-                        //失败
-                        callback(data, null);
-                    }
-                }
-                else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
-                }
-            });
-        });
-        req.end();
+/**
+ * 地图相关操作
+ */
+exports.mapstage = {
+    /**
+     * 获取所有地图关卡信息
+     * @param host
+     * @param sid
+     * @param {function} callback function(err,result)
+     */
+    getUserMapStages:function(host, sid, callback){
+        var server = {
+            host: host,
+            path: services.mapstage.getUserMapStages.path,
+            method: services.mapstage.getUserMapStages.method,
+            headers: commons.headers()
+        };
+        server.headers['Cookie'] = '_sid=' + sid;
+        tools.http.get(server,callback);
+    },
+
+    mapStageDefend:function(host, sid, callback){
+
     }
 };

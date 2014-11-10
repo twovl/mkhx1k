@@ -1,4 +1,4 @@
-﻿function asyncMapDefend(){
+﻿function asyncMapstageDefend(){
     alert('实现中……')
 }
 function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
@@ -336,7 +336,7 @@ function mazeShow(mapStageId) {
         success: function (data) {
             if (data.status) {
                 $('#lblMazeName' + mapStageId).text(data.Name);
-                $('#lblMazeIsClear' + mapStageId).text(data.Clear==1?'是':'否');
+                $('#lblMazeIsClear' + mapStageId).text(data.Clear==1?'是':'-');
                 $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
                 $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
                 //output.append('-->加载' + mapStageId + '塔信息成功<br/>');
