@@ -1,4 +1,7 @@
-﻿function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
+﻿function asyncMapDefend(){
+    alert('实现中……')
+}
+function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
     var rtnData = null;
     $.ajax({
         async: false,

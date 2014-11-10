@@ -20,10 +20,8 @@ block content
     div#sidebar
         div#userinfo
             //h2#username username
-            //h3#nickname nickname
+            h3#nickname nickname
             ul
-                li
-                    h3#nickname nickname
                 li LV:
                     span#level level
                 li 金:
@@ -32,19 +30,28 @@ block content
                     span#cash cash
                 li 体:
                     span#energy energy
-    //div#actions
-    //    ul
-    //        li 地图保卫
-    //        li 扫荡地下城
-    //        li 自动地下城
-    //        li 收/回体力
-    //        li 一键团战
+    div#actions
+        ul
+            li
+                button(onclick='javascript:asyncMapDefend();' disabled='disabled') 地图保卫
+            li
+                button(onclick='javascript:asyncMapDefend();' disabled='disabled') 扫荡地宫
+            li
+                button(onclick='javascript:asyncMapDefend();' disabled='disabled') 自动地宫
+            li
+                button(onclick='javascript:asyncMapDefend();' disabled='disabled') 收回体力
+            li
+                button(onclick='javascript:asyncMapDefend();' disabled='disabled') 一键团战
+            //li
+            //    button(onclick='javascript:asyncMapDefend();' disabled='disabled') 一键探索
+            //li
+            //    button(onclick='javascript:asyncMapDefend();' disabled='disabled') 自动打贼
     div#maincontent
         div
             table#mazes
                 tr
                     th 迷宫
-                    th 名称
+                    //th 名称
                     th 是否通关
                     th 免费重置
                     th 重置花费
@@ -53,8 +60,8 @@ block content
                 - for(var i=2;i<9;i++)
                     tr
                         td #{i}塔
-                        td
-                            label(id = "lblMazeName#{ i }") 名称
+                        //td
+                        //    label(id = "lblMazeName#{ i }") 名称
                         td
                             label(id = "lblMazeIsClear#{ i }") 否
                         td
