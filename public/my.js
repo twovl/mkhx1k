@@ -336,7 +336,7 @@ function mazeShow(mapStageId) {
         success: function (data) {
             if (data.status) {
                 $('#lblMazeName' + mapStageId).text(data.Name);
-                $('#lblMazeIsClear' + mapStageId).text(data.Clear);
+                $('#lblMazeIsClear' + mapStageId).text(data.Clear==1?'是':'否');
                 $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
                 $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
                 //output.append('-->加载' + mapStageId + '塔信息成功<br/>');
@@ -352,14 +352,6 @@ function mazeShow(mapStageId) {
             output.append(errMsg);
             $('#consoleLog').scrollTop(output.height());
         }
-    });
-
-    $.get("/maze/show/" + mapStageId, function (data) {
-        data = JSON.parse(data);
-        $('#lblMazeName' + mapStageId).text(data.Name);
-        $('#lblMazeIsClear' + mapStageId).text(data.Clear);
-        $('#lblMazeFreeReset' + mapStageId).text(data.FreeReset);
-        $('#lblMazeResetCash' + mapStageId).text(data.ResetCash);
     });
     $('#consoleLog').scrollTop(output.height());
 }
