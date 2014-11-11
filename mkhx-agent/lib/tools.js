@@ -7,7 +7,7 @@ var zlib = require('zlib');
 
 exports.http = {
     /**
-     * 发送get请求
+     * 发送get请求并解析为返回数据中的data字段
      * @param {object} server http.request要求http header的格式
      * @param {function} callback function(err,result)
      */
@@ -50,7 +50,7 @@ exports.http = {
         req.end();
     },
     /**
-     * 发送post请求
+     * 发送post请求并解析为返回数据中的data字段
      * @param {object} server http.request要求http header的格式
      * @param {string} reqContent post的数据
      * @param {function} callback function(err,result)

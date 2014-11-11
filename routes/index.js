@@ -1,6 +1,7 @@
 var login = require('./login.js');
 var maze = require('./maze.js');
 var user = require('./user.js');
+var mapstage = require('./mapstage.js');
 
 module.exports = function(app){
 
@@ -58,6 +59,9 @@ module.exports = function(app){
 
     //服务，获取游戏角色信息
     app.get('/user/info',user.info);
-    //TODO
+
+
+    //清除地图入侵
+    app.get('/mapstage/defend',mapstage.defend);
 
 };

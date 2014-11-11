@@ -1,5 +1,28 @@
-﻿function asyncMapstageDefend(){
-    alert('实现中……')
+﻿
+function asyncMapstageDefend(){
+    $.ajax({
+        async: false,
+        type: 'GET',
+        dataType: 'json',
+        url: '/mapstage/defend',
+        success: function (data) {
+            var output = $('div#logContent');
+            if(data instanceof String){
+                output.append(data);
+                return output.scrollTop(output.height());
+            }
+            for(var d in data){
+                output.append(data[d][0]+'   '+data[d][1]+ '<br/>');
+            }
+            output.scrollTop(output.height());
+        },
+        error: function (xmlHttpReq, errMsg) {
+            errMsg = '-->战斗：服务器无响应：' + (errMsg ? errMsg : '') + '<br/>';
+            var output = $('div#logContent');
+            output.append(errMsg);
+            $('#consoleLog').scrollTop(output.height());
+        }
+    });
 }
 function syncMazeBattle(mapStageId, layer, itemIndex, manual) {
     var rtnData = null;

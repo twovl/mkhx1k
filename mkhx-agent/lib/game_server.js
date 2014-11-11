@@ -184,7 +184,7 @@ exports.maze = {
      * @param {number} mapStageId 迷宫所在的地图号
      * @param {number} layer 层号
      * @param {number} itemIndex 怪的index
-     * @param {boolean} manual 是否手动，0否，1是
+     * @param {number} manual 是否手动，0否，1是
      * @param {function} callback function(err,battleResult)
      */
     battle: function (host, sid, mapStageId, layer, itemIndex, manual, callback) {
@@ -340,8 +340,8 @@ exports.user = {
 exports.legion = {
     /**
      *
-     * @param host
-     * @param sid
+     * @param {string} host
+     * @param {string} sid
      * @param callback
      */
     current:function(host, sid, callback){
@@ -362,8 +362,8 @@ exports.legion = {
 exports.mapstage = {
     /**
      * 获取所有地图关卡信息
-     * @param host
-     * @param sid
+     * @param {string} host
+     * @param {string} sid
      * @param {function} callback function(err,result)
      */
     getUserMapStages:function(host, sid, callback){
@@ -377,7 +377,67 @@ exports.mapstage = {
         tools.http.get(server,callback);
     },
 
-    mapStageDefend:function(host, sid, callback){
+    /**
+     * 自定义方法 清除地图入侵
+     * @param {string} host
+     * @param {string} sid
+     * @param {function} callback function(err,result) result是n*[string, string]数组
+     */
+    defend:function(host, sid, callback){
+        exports.mapstage.getUserMapStages(host,sid,function(err,mapStages){
+            if(err){
+                return callback(err,null);
+            }
+            //获得所有被入侵的关卡id
+            var invadedStageFuns = new Array();
+            for(var stage in mapStages){
+                if(mapStages[stage]['CounterAttackTime']){
+                    //生成清理方法
+                    (function (mapStageDetailId) {
+                        invadedStageFuns.push(function(callback){
+                            exports.mapstage.editUserMapStages(host,sid,mapStageDetailId,0,callback);
+                        });
+                    })(mapStages[stage]['MapStageDetailId']);
+                }
+            }
+            if(invadedStageFuns.length==0){
+                return callback('无入侵关卡',null);
+            }
+            async.parallel(invadedStageFuns,function(err,results){
+                if(err){
+                    return callback(err,null);
+                }
+                var loot = new Array();
+                for(var r in results){
+                    loot.push(results[r]['ExtData']['Bonus']);
+                }
+                callback(null,loot);
+            });
+        });
+    },
 
+    /**
+     *
+     * @param {string} host
+     * @param {string} sid
+     * @param {number} mapStageDetailId
+     * @param {number} isManual 是否手动，0否，1是
+     * @param {function} callback function(err,result)
+     */
+    editUserMapStages:function(host, sid, mapStageDetailId, isManual, callback){
+        var server = {
+            host: host,
+            path: services.mapstage.editUserMapStages.path,
+            method: services.mapstage.editUserMapStages.method,
+            headers: commons.headers()
+        };
+        var reqContent = services.maze.info.params;
+        reqContent['MapStageDetailId'] = mapStageDetailId;
+        reqContent['isManual'] = isManual;
+        reqContent = querystring.stringify(reqContent);
+        server.headers['Cookie'] = '_sid=' + sid;
+        server.headers['Content-Length'] = reqContent.length;
+
+        tools.http.post(server,reqContent,callback);
     }
 };
