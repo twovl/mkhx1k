@@ -34,6 +34,9 @@ exports.http = {
                     data = JSON.parse(data);
                     if (data.status) {
                         //成功
+                        if(data.data===undefined){
+                            data.data = {};
+                        }
                         data.data.status = 1;
                         callback(null, data.data);
                     }

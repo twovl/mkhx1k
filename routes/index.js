@@ -2,6 +2,7 @@ var login = require('./login.js');
 var maze = require('./maze.js');
 var user = require('./user.js');
 var mapstage = require('./mapstage.js');
+var dungeon = require('./dungeon.js');
 
 module.exports = function(app){
 
@@ -64,4 +65,6 @@ module.exports = function(app){
     //清除地图入侵
     app.get('/mapstage/defend',mapstage.defend);
 
+    //扫荡地宫
+    app.get('/dungeon/sweep',dungeon.sweep);
 };

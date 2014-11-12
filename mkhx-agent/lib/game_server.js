@@ -441,3 +441,43 @@ exports.mapstage = {
         tools.http.post(server,reqContent,callback);
     }
 };
+
+exports.dungeon = {
+    /**
+     * 扫荡地下城
+     * @param {string} host
+     * @param {string} sid
+     * @param {function} callback function(err,result)
+     */
+    sweep:function(host, sid, callback){
+        var server = {
+            host: host,
+            path: services.dungeon.sweep.path,
+            method: services.dungeon.sweep.method,
+            headers: commons.headers()
+        };
+        server.headers['Cookie'] = '_sid=' + sid;
+        tools.http.get(server,function(err,data){
+            if(err){
+                return callback(err,null);
+            }
+            var award = data['Award'];
+            if(award===undefined){
+                return callback({'status': 0, 'message': '异常错误'},null);
+            }
+            var cards = award['Cards'];
+            var chips = award['Chips'];
+            if(cards!==undefined){
+                cards.forEach(function(card){
+                    card['CardName'] = allcards[card['CardId']]['CardName'];
+                });
+            }
+            if(chips!==undefined){
+                chips.forEach(function(chip){
+                    chip['CardName'] = allcards[chip['ChipId']]['CardName'];
+                });
+            }
+            callback(null,data);
+        });
+    }
+};

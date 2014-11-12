@@ -1,4 +1,45 @@
-﻿
+﻿function asyncDungeonSweep(){
+    var output = $('div#logContent');
+    output.append('<h3 style="color:green;">--------------开始扫荡地下城-------------</h3>');
+    $.ajax({
+        async: false,
+        type: 'GET',
+        dataType: 'json',
+        url: '/dungeon/sweep',
+        success: function (data) {
+            if(data.status){
+                var award = data['Award'];
+                var message =
+                    '金币×'+award['Coins']+' '+
+                    '经验×'+award['Exp']+' '+
+                    '怒气×'+award['Anger']+'<br/>';
+                var cards = award['Cards'];
+                var chips = award['Chips'];
+                if(cards!==undefined){
+                    cards.forEach(function(card){
+                        message += card['CardName']+'×'+card['Num']+'<br/>';
+                    });
+                }
+                if(chips!==undefined){
+                    chips.forEach(function(chip){
+                        message += chip['CardName']+'×'+chip['Num']+'<br/>';
+                    });
+                }
+                output.append(message);
+            }
+            else{
+                output.append('-->'+data.message+ '<br/>');
+            }
+            output.scrollTop(output.height());
+        },
+        error: function (xmlHttpReq, errMsg) {
+            errMsg = '-->扫荡：服务器无响应：' + (errMsg ? errMsg : '') + '<br/>';
+            output.append(errMsg);
+            $('#consoleLog').scrollTop(output.height());
+        }
+    });
+}
+
 function asyncMapstageDefend(){
     $.ajax({
         async: false,
@@ -14,7 +55,6 @@ function asyncMapstageDefend(){
             }
             else{
                 output.append('-->'+data.message+ '<br/>');
-                return output.scrollTop(output.height());
             }
             output.scrollTop(output.height());
         },
