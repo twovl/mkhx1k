@@ -391,17 +391,17 @@ exports.mapstage = {
             //获得所有被入侵的关卡id
             var invadedStageFuns = new Array();
             for(var stage in mapStages){
-                if(mapStages[stage]['CounterAttackTime']){
+                if (mapStages[stage]['CounterAttackTime']!=undefined && ('0' != mapStages[stage]['CounterAttackTime'])) {
                     //生成清理方法
                     (function (mapStageDetailId) {
-                        invadedStageFuns.push(function(callback){
-                            exports.mapstage.editUserMapStages(host,sid,mapStageDetailId,0,callback);
+                        invadedStageFuns.push(function (callback) {
+                            exports.mapstage.editUserMapStages(host, sid, mapStageDetailId, 0, callback);
                         });
                     })(mapStages[stage]['MapStageDetailId']);
                 }
             }
             if(invadedStageFuns.length==0){
-                return callback('无入侵关卡',null);
+                return callback({'status': 0, 'message': '无入侵关卡'},null);
             }
             async.parallel(invadedStageFuns,function(err,results){
                 if(err){
@@ -411,7 +411,7 @@ exports.mapstage = {
                 for(var r in results){
                     loot.push(results[r]['ExtData']['Bonus']);
                 }
-                callback(null,loot);
+                callback(null,{'status': 1, 'data': loot});
             });
         });
     },

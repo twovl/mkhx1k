@@ -7,12 +7,14 @@ function asyncMapstageDefend(){
         url: '/mapstage/defend',
         success: function (data) {
             var output = $('div#logContent');
-            if(data instanceof String){
-                output.append(data);
-                return output.scrollTop(output.height());
+            if(data.status){
+                for(var d in data.data){
+                    output.append('-->'+data[d][0]+'   '+data[d][1]+ '<br/>');
+                }
             }
-            for(var d in data){
-                output.append(data[d][0]+'   '+data[d][1]+ '<br/>');
+            else{
+                output.append('-->'+data.message+ '<br/>');
+                return output.scrollTop(output.height());
             }
             output.scrollTop(output.height());
         },
