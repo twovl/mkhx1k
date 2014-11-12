@@ -9,7 +9,7 @@ function asyncMapstageDefend(){
             var output = $('div#logContent');
             if(data.status){
                 for(var d in data.data){
-                    output.append('-->'+data[d][0]+'   '+data[d][1]+ '<br/>');
+                    output.append('-->'+data.data[d][0]+'   '+data.data[d][1]+ '<br/>');
                 }
             }
             else{
