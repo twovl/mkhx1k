@@ -16,11 +16,13 @@
                 var cards = award['Cards'];
                 var chips = award['Chips'];
                 if(cards!==undefined){
+                    message+='-->获得卡牌：<br/>';
                     cards.forEach(function(card){
                         message += card['CardName']+'×'+card['Num']+'<br/>';
                     });
                 }
                 if(chips!==undefined){
+                    message+='-->获得碎片：<br/>';
                     chips.forEach(function(chip){
                         message += chip['CardName']+'×'+chip['Num']+'<br/>';
                     });
