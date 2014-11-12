@@ -517,3 +517,133 @@ exports.mapstage = {
          */
     }
 };
+
+exports.dungeon = {
+    getUserDungeon:{
+        path: '/dungeon.php?do=GetUserDungeon&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'GET'
+        /*
+         "data": {
+         "UserDungeon": {
+         "Uid": "51805",
+         "CurrentLayer": "0",
+         "MaxFinishLayer": "62",
+         "Resurrection": "2",
+         "BuyTimes": "0",
+         "Anger": "0",
+         "Status": "0",
+         "FinishedBoss": "",
+         "RaidsStatus": "0",//0为没有扫荡过，1为已经扫荡
+         "RaidsLayer": 40//扫荡到的层数
+         },
+         "DungeonConditions": [{
+         "ConditionId": "30",
+         "Type": "103",
+         "Value": "3",
+         "Content": "卡组中蛮荒种族卡牌不小于3张",
+         "Marks": "1,2,3,4,5,6,9,10",
+         "Layer": 5
+         },
+         。。。每层要求条件],
+         "RCash": 10,
+         "BuffId": 0,
+         "Content": null
+         }
+         */
+    },
+    sweep:{
+        path: '/dungeon.php?do=Sweep&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'GET'
+        /*
+         "data": {
+             "Award": {
+                 "Coins": 32610,
+                 "Exp": 26130,
+                 "Anger": 396,
+                 "Cards": [{
+                     "CardId": 220,
+                     "Num": 1
+                     },
+                     {
+                     "CardId": 21,
+                     "Num": 2
+                     },
+                     {
+                     "CardId": 193,
+                     "Num": 1
+                     }],
+                 "Chips": [{
+                     "ChipId": 244,
+                     "Num": 2
+                     },
+                     {
+                     "ChipId": 56,
+                     "Num": 2
+                     },
+                     {
+                     "ChipId": 113,
+                     "Num": 2
+                     },
+                     {
+                     "ChipId": 55,
+                     "Num": 2
+                     },
+                     {
+                     "ChipId": 90,
+                     "Num": 4
+                     },
+                     {
+                     "ChipId": 169,
+                     "Num": 2
+                     },
+                     {
+                     "ChipId": 178,
+                     "Num": 2
+                 }]
+             },
+             "UserLevelInfo": {
+                 "Level": 75,
+                 "Exp": 37828300,
+                 "PrevExp": 35301200,
+                 "NextExp": 40204700
+             }
+         }
+         */
+    },
+    fight: {
+        path: '/dungeon.php?do=Fight&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        method: 'POST',
+        params:{
+            'Layer':42,
+            'isManual':0
+        }
+        /*
+         "data": {
+             "BattleId": "9abdbdb3a3bd6a39a9170ecefb01e56953e60f16004ee",
+             "Win": 1,
+             "ExtData": {
+                 "Award": {
+                     "Coins": 1530,
+                     "Exp": 1220,
+                     "Anger": 18
+                 },
+                 "AwardChips": [{
+                     "ChipId": 244,
+                     "Num": 2
+                  }],
+                 "User": {
+                     "Level": 75,
+                     "Exp": 37830740,
+                     "PrevExp": 35301200,
+                     "NextExp": 40204700
+                 }
+             },
+             "Battle":{},
+             "AwardCards": [],
+             "prepare": null,
+             "AttackPlayer": {},
+             "DefendPlayer": {}
+         }
+         */
+    }
+};
