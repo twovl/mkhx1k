@@ -32,7 +32,7 @@
             else{
                 output.append('-->'+data.message+ '<br/>');
             }
-            output.scrollTop(output.height());
+            $('#consoleLog').scrollTop(output.height());
         },
         error: function (xmlHttpReq, errMsg) {
             errMsg = '-->扫荡：服务器无响应：' + (errMsg ? errMsg : '') + '<br/>';
@@ -58,7 +58,7 @@ function asyncMapstageDefend(){
             else{
                 output.append('-->'+data.message+ '<br/>');
             }
-            output.scrollTop(output.height());
+            $('#consoleLog').scrollTop(output.height());
         },
         error: function (xmlHttpReq, errMsg) {
             errMsg = '-->战斗：服务器无响应：' + (errMsg ? errMsg : '') + '<br/>';
