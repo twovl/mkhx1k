@@ -31,6 +31,7 @@ module.exports = function(app){
         else {
             //res.redirect('/index');
             res.send(404,'Holly Shit, we cannot find that!');
+            console.log('%s - %s %s %d - - %s',req.ip,req.method,req.originalUrl,404, new Date().toUTCString());
         }
     });
 
