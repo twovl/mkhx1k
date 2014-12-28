@@ -243,32 +243,33 @@ exports.maze = {
                                 var cardchipid = 0;
 
                                 //翻译战斗获得卡牌
-                                result['ExtData']['Award']['CardName'] = allcards[cardId]['CardName'];
+                                result['ExtData']['Award']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
+
                                 //是否获得碎片ndata['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
                                 if(cardchip){
                                     cardchip.forEach(function(chip){
                                         cardchipid = chip["ChipId"];
-                                        chip["CardName"] = allcards[cardchipid]['CardName'];
+                                        chip["CardName"] = allcards[cardchipid]?allcards[cardchipid]['CardName']:cardchipid;
                                     });
                                 }
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     for (i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
+                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
                                     }
                                 }
 
                                 //翻译通关获得卡牌
                                 cardId = result['ExtData']['Clear']['CardId'];
                                 secondDrop = result['ExtData']['Clear']['SecondDropCard'];
-                                result['ExtData']['Clear']['CardName'] = allcards[cardId]['CardName'];
+                                result['ExtData']['Clear']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
                                 if (secondDrop) {
                                     //是否获得其它掉落
                                     secondId = 0;
                                     for (var i = 0; i < secondDrop.length; i++) {
                                         secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardName'] = allcards[secondId]['CardName'];
+                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
                                     }
                                 }
                             }
@@ -469,12 +470,14 @@ exports.dungeon = {
             var chips = award['Chips'];
             if(cards!==undefined){
                 cards.forEach(function(card){
-                    card['CardName'] = allcards[card['CardId']]['CardName'];
+                    var cardId = card['CardId']
+                    card['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
                 });
             }
             if(chips!==undefined){
                 chips.forEach(function(chip){
-                    chip['CardName'] = allcards[chip['ChipId']]['CardName'];
+                    var chipId = chip['ChipId']
+                    chip['CardName'] = allcards[chipId]?allcards[chipId]['CardName']:chipId;
                 });
             }
             callback(null,data);
