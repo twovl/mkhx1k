@@ -27,6 +27,7 @@ exports.passportLogin = function (passport, callback) {
     reqContent['Password'] = passport['U_ID'];
     reqContent = querystring.stringify(reqContent);
     server.headers['Content-Length'] = reqContent.length;
+
     var req = http.request(server, function (res) {
         var data = '';
         var stream = null;
@@ -174,7 +175,7 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        tools.http.post(server,reqContent,callback);
+        tools.http.postEncrypted(server,reqContent,callback);
     },
 
     /**
@@ -203,94 +204,150 @@ exports.maze = {
         server.headers['Cookie'] = '_sid=' + sid;
         server.headers['Content-Length'] = reqContent.length;
 
-        var req = http.request(server, function (res) {
-            var data = '';
-            var stream = null;
-            switch (res.headers['content-encoding']) {
-                case 'gzip':
-                    stream = res.pipe(zlib.createGunzip());
-                    break;
-                case 'deflate':
-                    stream = res.pipe(zlib.createInflate());
-                    break;
-                default :
-                    stream = res;
-            }
-            stream.setEncoding('utf8');
-            stream.on('data', function (chunk) {
-                data += chunk;
-            });
-            stream.on('end', function () {
-                if (data) {
-                    data = JSON.parse(data);
-                    if (data.status) {
-                        //获取成功
-                        var result = data.data;
-                        result.status = 1;
-                        if (manual) {
-                            //判断是否自动战斗
-                            delete result["BattleId"];
-                            delete result["prepare"];
-                            delete result["AttackPlayer"];
-                            delete result["DefendPlayer"];
-                            delete result["Battle"];
-                            if (result['Win'] == 1) {
-                                //是否胜利
-                                var cardId = result['ExtData']['Award']['CardId'];
-                                var secondDrop = result['ExtData']['Award']['SecondDropCard'];
-                                var secondId = 0;
-                                var cardchip = result['ExtData']['CardChip'];
-                                var cardchipid = 0;
+        tools.http.postEncrypted(server,reqContent,function(err,result){
+            if(!err){
+                if (manual) {
+                    //判断是否自动战斗
+                    delete result["BattleId"];
+                    delete result["prepare"];
+                    delete result["AttackPlayer"];
+                    delete result["DefendPlayer"];
+                    delete result["Battle"];
+                    if (result['Win'] == 1) {
+                        //是否胜利
+                        var cardId = result['ExtData']['Award']['CardId'];
+                        var secondDrop = result['ExtData']['Award']['SecondDropCard'];
+                        var secondId = 0;
+                        var cardchip = result['ExtData']['CardChip'];
+                        var cardchipid = 0;
 
-                                //翻译战斗获得卡牌
-                                result['ExtData']['Award']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
+                        //翻译战斗获得卡牌
+                        result['ExtData']['Award']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
 
-                                //是否获得碎片ndata['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
-                                if(cardchip){
-                                    cardchip.forEach(function(chip){
-                                        cardchipid = chip["ChipId"];
-                                        chip["CardName"] = allcards[cardchipid]?allcards[cardchipid]['CardName']:cardchipid;
-                                    });
-                                }
-                                if (secondDrop) {
-                                    //是否获得其它掉落
-                                    for (i = 0; i < secondDrop.length; i++) {
-                                        secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
-                                    }
-                                }
-
-                                //翻译通关获得卡牌
-                                cardId = result['ExtData']['Clear']['CardId'];
-                                secondDrop = result['ExtData']['Clear']['SecondDropCard'];
-                                result['ExtData']['Clear']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
-                                if (secondDrop) {
-                                    //是否获得其它掉落
-                                    secondId = 0;
-                                    for (var i = 0; i < secondDrop.length; i++) {
-                                        secondId = secondDrop[i]['CardId'];
-                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
-                                    }
-                                }
+                        //是否获得碎片ndata['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
+                        if(cardchip){
+                            cardchip.forEach(function(chip){
+                                cardchipid = chip["ChipId"];
+                                chip["CardName"] = allcards[cardchipid]?allcards[cardchipid]['CardName']:cardchipid;
+                            });
+                        }
+                        if (secondDrop) {
+                            //是否获得其它掉落
+                            for (i = 0; i < secondDrop.length; i++) {
+                                secondId = secondDrop[i]['CardId'];
+                                secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
                             }
                         }
-                        else {
-                            //TODO 非自动战斗回复
+
+                        //翻译通关获得卡牌
+                        cardId = result['ExtData']['Clear']['CardId'];
+                        secondDrop = result['ExtData']['Clear']['SecondDropCard'];
+                        result['ExtData']['Clear']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
+                        if (secondDrop) {
+                            //是否获得其它掉落
+                            secondId = 0;
+                            for (var i = 0; i < secondDrop.length; i++) {
+                                secondId = secondDrop[i]['CardId'];
+                                secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
+                            }
                         }
-                        callback(null, result);
-                    }
-                    else {
-                        //获取失败
-                        callback(data, null);
                     }
                 }
                 else {
-                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
+                    //TODO 非自动战斗回复
                 }
-            });
+            }
+            callback(err,result);
         });
-        req.write(reqContent);
-        req.end();
+
+//        var req = http.request(server, function (res) {
+//            var data = '';
+//            var stream = null;
+//            switch (res.headers['content-encoding']) {
+//                case 'gzip':
+//                    stream = res.pipe(zlib.createGunzip());
+//                    break;
+//                case 'deflate':
+//                    stream = res.pipe(zlib.createInflate());
+//                    break;
+//                default :
+//                    stream = res;
+//            }
+//            stream.setEncoding('utf8');
+//            stream.on('data', function (chunk) {
+//                data += chunk;
+//            });
+//            stream.on('end', function () {
+//                if (data) {
+//                    data = JSON.parse(data);
+//                    if (data.status) {
+//                        //获取成功
+//                        var result = data.data;
+//                        result.status = 1;
+//                        if (manual) {
+//                            //判断是否自动战斗
+//                            delete result["BattleId"];
+//                            delete result["prepare"];
+//                            delete result["AttackPlayer"];
+//                            delete result["DefendPlayer"];
+//                            delete result["Battle"];
+//                            if (result['Win'] == 1) {
+//                                //是否胜利
+//                                var cardId = result['ExtData']['Award']['CardId'];
+//                                var secondDrop = result['ExtData']['Award']['SecondDropCard'];
+//                                var secondId = 0;
+//                                var cardchip = result['ExtData']['CardChip'];
+//                                var cardchipid = 0;
+//
+//                                //翻译战斗获得卡牌
+//                                result['ExtData']['Award']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
+//
+//                                //是否获得碎片ndata['ExData']["CardChip"] = [{"ChipId":"503","Num":1}]
+//                                if(cardchip){
+//                                    cardchip.forEach(function(chip){
+//                                        cardchipid = chip["ChipId"];
+//                                        chip["CardName"] = allcards[cardchipid]?allcards[cardchipid]['CardName']:cardchipid;
+//                                    });
+//                                }
+//                                if (secondDrop) {
+//                                    //是否获得其它掉落
+//                                    for (i = 0; i < secondDrop.length; i++) {
+//                                        secondId = secondDrop[i]['CardId'];
+//                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
+//                                    }
+//                                }
+//
+//                                //翻译通关获得卡牌
+//                                cardId = result['ExtData']['Clear']['CardId'];
+//                                secondDrop = result['ExtData']['Clear']['SecondDropCard'];
+//                                result['ExtData']['Clear']['CardName'] = allcards[cardId]?allcards[cardId]['CardName']:cardId;
+//                                if (secondDrop) {
+//                                    //是否获得其它掉落
+//                                    secondId = 0;
+//                                    for (var i = 0; i < secondDrop.length; i++) {
+//                                        secondId = secondDrop[i]['CardId'];
+//                                        secondDrop[i]['CardName'] = allcards[secondId]?allcards[secondId]['CardName']:secondId;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            //TODO 非自动战斗回复
+//                        }
+//                        callback(null, result);
+//                    }
+//                    else {
+//                        //获取失败
+//                        callback(data, null);
+//                    }
+//                }
+//                else {
+//                    callback({'status': 0, 'message': '游戏服务器无响应'}, null);
+//                }
+//            });
+//        });
+//        req.write(reqContent);
+//        req.end();
     },
 
     /**
@@ -390,7 +447,7 @@ exports.mapstage = {
                 return callback(err,null);
             }
             //获得所有被入侵的关卡id
-            var invadedStageFuns = new Array();
+            var invadedStageFuns = [];
             for(var stage in mapStages){
                 if (mapStages[stage]['CounterAttackTime']!=undefined && ('0' != mapStages[stage]['CounterAttackTime'])) {
                     //生成清理方法
@@ -408,7 +465,7 @@ exports.mapstage = {
                 if(err){
                     return callback(err,null);
                 }
-                var loot = new Array();
+                var loot = [];
                 for(var r in results){
                     loot.push(results[r]['ExtData']['Bonus']);
                 }

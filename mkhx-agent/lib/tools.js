@@ -4,6 +4,7 @@
 
 var http = require('http');
 var zlib = require('zlib');
+var querystring = require('querystring');
 
 exports.http = {
     /**
@@ -132,13 +133,11 @@ exports.http = {
         params = JSON.stringify(params);
 
         //6. zlib压缩params，并转换为base64 string
-        var buff = new Buffer(params);
-        params = zlib.gzipSync(buff).toString("base64");
+        //var buff = new Buffer(params);
+       // params = zlib.gzipSync(buff).toString("base64");
+        params = zlib.deflateSync(params).toString("base64");
 
         //7. 随机生成长度为5，字符为a-z1-9的字符串s1
-        var dict = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n"
-                   ,"o","p","q","r","s","t","u","v","w","x","y","z"
-                   ,"1","2","3","4","5","6","7","8","9"];
         var s1 = randomString(5);
 
         //8. 随机生成长度为1-9随机数，字符为a-z1-9的字符串s2
