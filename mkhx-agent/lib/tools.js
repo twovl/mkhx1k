@@ -99,5 +99,43 @@ exports.http = {
         });
         req.write(reqContent);
         req.end();
+    },
+
+    /**
+     * 发送加密后的post请求并解析为返回数据中的data字段
+     * @param {object} server http.request要求http header的格式
+     * @param {string} reqContent post的数据
+     * @param {function} callback function(err,result)
+     */
+    postEncrypted:function(server ,reqContent, callback){
+
+        //1. 将serve中path的参数（即?之后）去掉
+        var s = server.path.split("?");
+        server.path = s[0];
+        //2. 将reqContent a=a1&b=b1&c=c1类型的参数转为json对象（querystring.parse）params，如果为空，则新建一个json对象
+        var params;
+        if(reqContent==null || reqContent.length==0){
+            params  = {};
+        }
+        else{
+            params = querystring.parse(reqContent);
+        }
+        //3. params中添加mzsg属性，值为去掉的参数
+        params["mzsg"] = s[1];
+        //4. params中添加"pvpNewVersion":"1","OpenCardChip":"1"
+        params["pvpNewVersion"] = "1";
+        params["OpenCardChip"] = "1";
+        //5. params序列化为字符串（JSON.stringify）
+        params = JSON.stringify(params);
+        //6. zlib压缩params
+
+        //7. 随机生成长度为5，字符为a-z1-9的字符串s1
+        //8. 随机胜场长度为1-9随机数，字符为a-z1-9的字符串s2
+        //9. sz=s1+s2.length+s2+params
+        //10. sb=md5String(sz+'1234567890')
+        //11. params重新构造为z=sz&b=sb的querystring
+        //12. 最终调用普通的post发送
+        exports.http.post(server, params, callback);
     }
+
 };

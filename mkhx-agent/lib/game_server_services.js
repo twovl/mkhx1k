@@ -1,6 +1,6 @@
 //登录游戏服务器
 exports.passportLogin = {
-    path: '/login.php?do=PassportLogin&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+    path: '/login.php?do=PassportLogin&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
     method: 'POST',
     params: {
         'Udid': '',//设备ID
@@ -32,7 +32,7 @@ exports.passportLogin = {
 exports.maze = {
     //获取迷宫信息
     show: {
-        path: '/maze.php?do=Show&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/maze.php?do=Show&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'MapStageId': 7//迷宫号，2-8塔
@@ -60,7 +60,7 @@ exports.maze = {
     },
     //获取迷宫某层信息
     info: {
-        path: '/maze.php?do=Info&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/maze.php?do=Info&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'MapStageId': 3,//迷宫号，2-8塔
@@ -103,7 +103,7 @@ exports.maze = {
     },
     //战斗返回结果charset为空，其他为utf8
     battle: {
-        path: '/maze.php?do=Battle&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/maze.php?do=Battle&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'MapStageId': 3,//迷宫号，2-8塔
@@ -236,7 +236,7 @@ exports.maze = {
     },
     //重置迷宫
     reset: {
-        path: '/maze.php?do=Reset&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/maze.php?do=Reset&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'MapStageId': 2
@@ -255,7 +255,7 @@ exports.maze = {
     },
     //神秘塔
     showMysticMaze:{
-        path: '/maze.php?do=ShowMysticMaze&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/maze.php?do=ShowMysticMaze&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
         /*
         {
@@ -289,14 +289,14 @@ exports.maze = {
 };
 exports.card = {
     getAllCard: {
-        path: '/card.php?do=GetAllCard&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/card.php?do=GetAllCard&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
     }
 };
 
 exports.user = {
     getUserInfo: {
-        path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/user.php?do=GetUserinfo&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'hallOpen': true
@@ -405,7 +405,7 @@ exports.user = {
 
 exports.legion = {
     getUserLegion : {
-        path: '/legion.php?do=GetUserLegion&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/legion.php?do=GetUserLegion&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
     }
     /*
@@ -430,7 +430,7 @@ exports.legion = {
 
 exports.mapstage = {
     getUserMapStages : {
-        path: '/mapstage.php?do=GetUserMapStages&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/mapstage.php?do=GetUserMapStages&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
         /*
          "data": {
@@ -457,7 +457,7 @@ exports.mapstage = {
     },
     //打地图入侵怪
     editUserMapStages : {
-        path: '/mapstage.php?do=EditUserMapStages&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/mapstage.php?do=EditUserMapStages&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params:{
             'MapStageDetailId':1,
@@ -482,7 +482,7 @@ exports.mapstage = {
     },
     //探索
     explore : {
-        path: '/mapstage.php?do=Explore&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/mapstage.php?do=Explore&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params: {
             'MapStageDetailId': 1
@@ -520,7 +520,7 @@ exports.mapstage = {
 
 exports.dungeon = {
     getUserDungeon:{
-        path: '/dungeon.php?do=GetUserDungeon&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/dungeon.php?do=GetUserDungeon&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
         /*
          "data": {
@@ -552,7 +552,7 @@ exports.dungeon = {
          */
     },
     sweep:{
-        path: '/dungeon.php?do=Sweep&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/dungeon.php?do=Sweep&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'GET'
         /*
          "data": {
@@ -611,7 +611,7 @@ exports.dungeon = {
          */
     },
     fight: {
-        path: '/dungeon.php?do=Fight&v=6614&OpenCardChip=1&phpp=WP8&phpl=ZH_CN&pvc=1.5.3&pvb=2014-09-16+12%3a45%3a00',
+        path: '/dungeon.php?do=Fight&v=6614&OpenCardChip=1&v=1688&phpp=WP8&phpl=ZH_CN&pvc=1.7.1&pvb=2015-08-06+18%3a35%',
         method: 'POST',
         params:{
             'Layer':42,
